@@ -1,0 +1,39 @@
+name: Feature request
+description: Suggest an idea for Conqueror OS
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Please keep in mind the project's constraints: **no runtime dependencies**, **offline-first**, and **no server or accounts**.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the need or frustration, not just the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      options:
+        - label: This feature works entirely offline with no network requests
+          required: true
+        - label: This feature adds no runtime dependencies
+          required: true
+        - label: This feature does not require a server, account or backend
+          required: true

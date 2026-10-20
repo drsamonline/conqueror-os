@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    name: Test & build (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 20, 22]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: Install dev dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run smoke suite
+        run: npm test
+
+      - name: Build single-file app
+        run: npm run build
+
+      - name: Verify build output exists
+        run: test -s dist/conqueror-os.html
+
+      - name: Upload build artifact
+        if: matrix.node == 20
+        uses: actions/upload-artifact@v4
+        with:
+          name: conqueror-os-dist
+          path: dist/conqueror-os.html
+          if-no-files-found: error
+
+  dist-in-sync:
+    name: dist/ is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - name: Fail if dist/ differs from committed build
+        run: |
+          if ! git diff --quiet -- dist/conqueror-os.html; then
+            echo "::error::dist/conqueror-os.html is out of date. Run 'npm run build' and commit the result."
+            git diff --stat -- dist/conqueror-os.html
+            exit 1
+          fi

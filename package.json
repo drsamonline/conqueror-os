@@ -1,0 +1,32 @@
+{
+  "name": "conqueror-os",
+  "version": "3.0.0",
+  "description": "A private, offline resilience workspace in a single HTML file — read, reflect, journal, track and review.",
+  "keywords": [
+    "offline",
+    "single-file",
+    "vanilla-js",
+    "journal",
+    "habits",
+    "resilience",
+    "privacy",
+    "local-first",
+    "spaced-repetition"
+  ],
+  "license": "MIT",
+  "author": "Dr Sohil Momin",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node tests/smoke.test.js",
+    "serve": "node scripts/serve.js",
+    "verify": "npm test && npm run build"
+  },
+  "devDependencies": {
+    "happy-dom": "^15.11.7",
+    "html-minifier-terser": "^7.2.0"
+  }
+}

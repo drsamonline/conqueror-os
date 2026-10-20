@@ -1,0 +1,73 @@
+name: Bug report
+description: Something isn't working as expected
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a report. Please fill this in as completely as you can.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, and what you expected instead.
+      placeholder: "The streak counter shows 0 even though I completed yesterday."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the app
+        2. Go to 'Trackers'
+        3. Click on '...'
+        4. See error
+    validations:
+      required: true
+  - type: dropdown
+    id: how-opened
+    attributes:
+      label: How are you opening the app?
+      options:
+        - Opened the file directly (file://)
+        - Served over http(s)
+        - Hosted on a static site
+        - Other / not sure
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: "Chrome 153.0.8010.12"
+    validations:
+      required: true
+  - type: dropdown
+    id: which-build
+    attributes:
+      label: Which build?
+      options:
+        - dist/conqueror-os.html (minified)
+        - src/index.html (readable source)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Open the browser devtools console and paste any errors here.
+      render: shell
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I have exported a backup of my data (Settings → Backup)
+          required: false
+        - label: I searched existing issues to make sure this is not a duplicate
+          required: true
