@@ -57,6 +57,7 @@ Conqueror OS is a self-contained personal application for building mental resili
 - **A real reading system.** Multi-book library with parts/chapters, inline highlights in three colours, notes, bookmarks, favourites, focus mode, read-aloud and dwell-time tracking.
 - **A practice system, not just a reader.** Journal, trackers, worksheets, challenges, and a spaced-repetition review queue.
 - **Resilient storage.** Schema migrations, undo on every destructive action, encrypted backups, JSON/Markdown/Word/CSV export, and an import that can merge instead of overwrite.
+- **A real icon system.** A single inline SVG sprite (~50 symbols) drives the whole interface — crisp at any zoom, colour-matched to every theme.
 - **Accessible.** Keyboard-first, focus-trapped dialogs, ARIA live regions, radiogroup semantics, high-contrast theme, and reduced-motion support.
 
 ## Screenshots
@@ -108,6 +109,7 @@ The **runtime has no dependencies** — no framework, no library, no external as
 - **Selection quick-actions** — highlight, copy, or send the selection straight to a new journal entry.
 - **Notes** per chapter with Markdown and `[[wiki links]]` to other chapters.
 - **Bookmarks with labels**, a dedicated Bookmarks page, and a Favourite-quotes page.
+- **Inline SVG diagrams** — a themed, hand-built diagram for every chapter, drawn to adapt to the current theme.
 - **Focus mode**, line-spacing / width / font / weight controls, and **read-aloud** (Web Speech API).
 - **Themes:** light, dark, sepia, high-contrast, OLED black, and Auto (follows the OS).
 - **Resume banner** and dwell-time tracking (minutes per day and per chapter).

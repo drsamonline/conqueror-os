@@ -55,6 +55,18 @@ A complete reference to what Conqueror OS does. Everything works offline with no
 - Reusable fillable sheets with saved history: Daily Resilience Check, Weekly Review, Setback Ledger.
 - Each save appends a new dated entry; entries are printable and deletable (with undo).
 
+## Diagrams and icons
+
+- **Inline SVG diagrams** — every chapter carries a hand-built, theme-aware
+  diagram placed beneath its text: the stress-response curve (regulated vs.
+  unregulated), the two-stories branch after a setback, capacity with and
+  without scheduled recovery, the willpower drain across a day, isolated
+  setbacks converging into one pattern, consistency against intensity, the
+  90-second wave, the two-sentence script, and the five-minute close.
+- **A single SVG icon sprite** (~50 symbols) powers the entire interface:
+  navigation, header, reader toolbar, buttons, controls and empty states. Icons
+  inherit the theme colour, scale cleanly, and require no external files or fonts.
+
 ## Knowledge graph & glossary
 
 - **Graph** of chapters, worksheets and challenges connected by shared concepts; hover/focus to highlight connections.

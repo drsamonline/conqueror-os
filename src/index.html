@@ -444,6 +444,85 @@ mark.hl{ cursor:pointer; color:inherit; }
   .reader-toolbar,.x-overlay,.toast-action,.sel-pop,.filter-row,.export-grid{ display:none !important; }
 }
 
+
+/* ============================================================
+   v3.1 — icons, diagrams and polish
+   ============================================================ */
+.icon{display:inline-block;vertical-align:-.16em;margin-right:.45em;flex:0 0 auto}
+.glyph .icon,.nav-icon .icon,.icon-btn .icon,.btn .icon,.reader-toolbar button .icon,
+.tab-row button .icon,.palette-item .icon,.entry-actions button .icon,.x-actions .btn .icon{margin-right:0}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center}
+.btn,.reader-toolbar button,.tab-row button{display:inline-flex;align-items:center;gap:.45em}
+.search-ico{display:inline-flex;align-items:center;color:var(--text-dim);margin-right:.45rem}
+#menu-toggle{display:none;align-items:center;justify-content:center}
+
+/* nav */
+.nav-icon{display:inline-flex;align-items:center;justify-content:center;width:1.5em;height:1.5em;flex:0 0 auto;
+  border-radius:6px;color:var(--text-dim);background:transparent;transition:color var(--dur),background var(--dur)}
+nav.primary a{position:relative;gap:.7rem;padding:.55rem .7rem;border-radius:8px}
+nav.primary a:hover .nav-icon{color:var(--accent);background:var(--bg-raised)}
+nav.primary a[aria-current="page"] .nav-icon{color:#fff;background:var(--accent)}
+[data-theme="dark"] nav.primary a[aria-current="page"] .nav-icon{color:var(--ink-900)}
+nav.primary a[aria-current="page"]{font-weight:600}
+.nav-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* empty states */
+.empty-state .glyph{font-size:0;display:inline-flex;align-items:center;justify-content:center;
+  width:62px;height:62px;margin:0 auto .7rem;border-radius:50%;color:var(--accent);
+  background:var(--bg-sunken);border:1px solid var(--border)}
+.empty-state{font-size:.92rem}
+
+/* buttons get a little more presence */
+.btn{padding:.5rem 1rem;border-radius:9px;transition:background var(--dur),border-color var(--dur),transform var(--dur)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:none}
+.reader-toolbar button{border-radius:9px;padding:.4rem .75rem}
+.reader-toolbar button:hover{border-color:var(--accent);color:var(--accent)}
+.reader-toolbar button.active{background:var(--accent-soft);border-color:var(--accent);color:var(--ink-900)}
+[data-theme="dark"] .reader-toolbar button.active,[data-theme="oled"] .reader-toolbar button.active,[data-theme="contrast"] .reader-toolbar button.active{color:#fff}
+
+/* figures / diagrams */
+.diagram{margin:1.7rem 0;padding:1.1rem 1.1rem .75rem;background:var(--bg-raised);
+  border:1px solid var(--border);border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.diagram svg.dg{width:100%;height:auto;display:block;max-height:320px}
+.diagram figcaption{margin-top:.55rem;font-size:.8rem;color:var(--text-dim);text-align:center}
+.dg text{font-family:var(--font-body)}
+.dg-lbl{font-size:12px;fill:var(--text-dim)}
+.dg-lbl.strong{fill:var(--text);font-weight:600}
+.dg-lbl.accent-t{fill:var(--accent)}
+.dg-lbl.bad-t{fill:var(--bad)}
+.dg-t{font-size:13px;fill:var(--text);font-weight:500}
+.dg-t.strong{font-weight:700}
+.dg-t.accent-t{fill:var(--accent)}
+.dg-t.bad-t{fill:var(--bad)}
+.dg-t.good-t{fill:var(--good)}
+.dg-axis{stroke:var(--border);stroke-width:1.5}
+.dg-base{stroke:var(--border);stroke-width:1.5;stroke-dasharray:4 4}
+.dg-guide{stroke:var(--border);stroke-width:1;stroke-dasharray:3 4}
+.dg-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.dg-line.accent{stroke:var(--accent)}
+.dg-line.bad{stroke:var(--bad)}
+.dg-line.dash{stroke-dasharray:7 5}
+.dg-flow{fill:none;stroke:var(--text-dim);stroke-width:1.8}
+.dg-flow.accent{stroke:var(--accent)}
+.dg-dot{fill:var(--accent);stroke:none}
+.dg-box{fill:var(--bg-sunken);stroke:var(--border);stroke-width:1.5}
+.dg-box.accent-b{stroke:var(--accent)}
+.dg-box.bad-b{stroke:var(--bad)}
+.dg-box.good-b{stroke:var(--good)}
+.dg-box.dash{stroke-dasharray:5 4}
+.dg-bar{fill:var(--accent-soft);stroke:var(--border);stroke-width:1}
+.dg-strike{stroke:var(--bad);stroke-width:2;stroke-linecap:round}
+
+/* reading polish */
+.reader-body blockquote{border-left:3px solid var(--accent);background:var(--bg-sunken);
+  border-radius:0 8px 8px 0;padding:.7em 1em;margin:1.6em 0}
+.block{border-radius:10px}
+.block h4{display:flex;align-items:center;gap:.4rem}
+.stat-pill{border-radius:10px}
+.widget{border-radius:10px}
+@media print{ .diagram{break-inside:avoid} }
+
 </style>
 </head>
 <body>
@@ -455,6 +534,80 @@ mark.hl{ cursor:pointer; color:inherit; }
     <p>Save this file and open it <strong>directly in a normal browser tab</strong> (Chrome, Safari, Firefox or Edge) — not inside a preview pane, email client, document viewer or another app. Then make sure JavaScript is enabled for local files.</p>
   </div>
 </noscript>
+<svg id="i-sprite" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="dg-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="var(--text-dim)"/></marker>
+    <marker id="dg-arrow-accent" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="var(--accent)"/></marker>
+    <marker id="dg-arrow-bad" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="var(--bad)"/></marker>
+  </defs>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.6C10.5 5.1 8 4.5 5 4.5v13c3 0 5.5.6 7 2 1.5-1.4 4-2 7-2v-13c-3 0-5.5.6-7 2.1z"/><path d="M12 6.6v12.9"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l4-1 10-10a2.12 2.12 0 0 0-3-3L5 16z"/><path d="M14 7l3 3"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><polyline points="3 12 7 12 10 5 14 19 17 12 21 12"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M6 20v-7"/><path d="M12 20V6"/><path d="M18 20v-11"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.6M12 18.4V21M3 12h2.6M18.4 12H21M5.6 5.6l1.9 1.9M16.5 16.5l1.9 1.9M18.4 5.6l-1.9 1.9M7.5 16.5l-1.9 1.9"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><polyline points="20 3.5 20 9 14.5 9"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 7.2 4.1 4.1 0 0 1 19 10.6c0 5-7 9.4-7 9.4z"/></symbol>
+  <symbol id="i-marker" viewBox="0 0 24 24"><path d="M4 20h6l8.5-8.5a2.8 2.8 0 0 0-4-4L6 16z"/><path d="M13 6.5l4.5 4.5"/></symbol>
+  <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 10v4h3l4 3.2V6.8L7 10z"/><path d="M15 9.2a4 4 0 0 1 0 5.6"/><path d="M17.6 6.6a7.5 7.5 0 0 1 0 10.8"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="1.6"/><path d="M7 14h10v6H7z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5"/></symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M4 12l3-3M4 12l3 3M20 12l-3-3M20 12l-3 3"/></symbol>
+  <symbol id="i-width" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h10"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h8"/><path d="M16.5 4.5l3 3L9 18l-4 1 1-4z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14"/><path d="M9 7V4.8h6V7"/><path d="M7 7l1 13h8l1-13"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v10"/><polyline points="8 11 12 15 16 11"/><path d="M5 19h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 20V10"/><polyline points="8 13 12 9 16 13"/><path d="M5 5h14"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.2"/><path d="M8.2 10V8a3.8 3.8 0 0 1 7.6 0v2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.8 1.8H4.2z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M4 4h7l9 9-7 7-9-9z"/><circle cx="8.2" cy="8.2" r="1.3"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 5h5v5"/><path d="M19 5l-8 8"/><path d="M18 14.5V18a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18V7.5A1.5 1.5 0 0 1 6 6h3.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="5 12.5 10 17.5 19 7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><polyline points="9.5 6 15.5 12 9.5 18"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline points="14.5 6 8.5 12 14.5 18"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15"/><polyline points="13 6 19 12 13 18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 4.2l2.5 5 5.5.8-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.5-.8z"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6.2 7.2V18l-3.6 1.8v-7.6z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="2.2"/><path d="M4 10.5h16"/><path d="M9 4v4M15 4v4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><polyline points="12 7.5 12 12 15.5 14"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3s5 4.4 5 8.9a5 5 0 0 1-10 0c0-1.9.9-3.4 1.9-4.4.1 1.9 1 2.9 1.9 2.9 0-2.9 1.2-5.7 1.2-7.4z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2.2"/><path d="M7 11h10M7 14h6"/></symbol>
+  <symbol id="i-command" viewBox="0 0 24 24"><rect x="9" y="9" width="6" height="6" rx="1.2"/><path d="M9 9V7a2 2 0 1 0-2 2h2zM15 9V7a2 2 0 1 1 2 2h-2zM9 15v2a2 2 0 1 1-2-2h2zM15 15v2a2 2 0 1 0 2-2h-2z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.6l7 2.9v5.2c0 4-2.9 7.1-7 8.3-4.1-1.2-7-4.3-7-8.3V6.5z"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 4l1.6 4.4L18 10l-4.4 1.6L12 16l-1.6-4.4L6 10l4.4-1.6z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2.2"/><circle cx="9" cy="10" r="1.6"/><path d="M5 17.5l4.6-4.6 3 3L16 12l3 3"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9.6" y="3.5" width="4.8" height="9.5" rx="2.4"/><path d="M7 11.5a5 5 0 0 0 10 0"/><path d="M12 16.5V20"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 7h6a5 5 0 0 1 0 10H8"/><polyline points="11.5 4 8 7 11.5 10"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l8.5 15.5h-17z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M9.5 7C6.6 8 5 10.2 5 13.4V17h4.6v-4.6H7.3c0-2 .8-3.2 2.9-4z"/><path d="M19 7c-2.9 1-4.5 3.2-4.5 6.4V17H19v-4.6h-2.3c0-2 .8-3.2 2.9-4z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3.8l8 4.2-8 4.2-8-4.2z"/><path d="M4 12.2l8 4.2 8-4.2"/><path d="M4 16.2l8 4.2 8-4.2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><path d="M12 4c2.6 2.6 2.6 13.4 0 16M12 4c-2.6 2.6-2.6 13.4 0 16"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5.5 15V6.5A1.5 1.5 0 0 1 7 5h8.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 6.2 12 6.2 21.5 12 21.5 12 18 17.8 12 17.8 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6L21 21"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.8l12 7.2-12 7.2z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 4a8 8 0 0 0 0 16c1.4 0 2-.9 2-1.8 0-1.6-1.4-1.7-1.4-2.9 0-.9.7-1.5 1.7-1.5H16a4 4 0 0 0 4-4c0-3.3-3.6-5.8-8-5.8z"/><circle cx="8.2" cy="11" r="1.1" fill="currentColor" stroke="none"/><circle cx="11" cy="8" r="1.1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24"><path d="M5 6h14"/><path d="M12 6v13"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 5h11l3 3v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path d="M8 5v5h7V5"/><rect x="8" y="13" width="8" height="6"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="6.5" rx="7" ry="2.8"/><path d="M5 6.5v11c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-11"/><path d="M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9.2 17.5a6 6 0 1 1 5.6 0"/><path d="M9.6 17.5h4.8"/><path d="M10.4 20.2h3.2"/></symbol>
+  <symbol id="i-waves" viewBox="0 0 24 24"><path d="M3 9c2.2 0 2.2 2 4.4 2S9.6 9 11.8 9s2.2 2 4.4 2 2.2-2 4.4-2"/><path d="M3 15c2.2 0 2.2 2 4.4 2s2.2-2 4.4-2 2.2 2 4.4 2 2.2-2 4.4-2"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M17 8H8a4 4 0 0 0 0 8h8a4 4 0 0 0 0-8z"/><polyline points="15 5.5 17.5 8 15 10.5"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M6 8h12"/><path d="M6 8l-2.5 6h5z"/><path d="M18 8l-2.5 6h5z"/></symbol>
+</svg>
+
 <div id="app">
 
   <aside id="sidebar">
@@ -468,16 +621,16 @@ mark.hl{ cursor:pointer; color:inherit; }
   </aside>
 
   <header id="header">
-    <button id="menu-toggle" aria-label="Toggle navigation">☰</button>
+    <button id="menu-toggle" aria-label="Toggle navigation" data-icon="menu" data-icon-size="20"></button>
     <nav id="breadcrumb" aria-label="Breadcrumb"></nav>
     <div class="header-spacer"></div>
     <div id="search-box" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open search">
-      <span style="opacity:.6;margin-right:.4rem;">⌕</span>
+      <span class="search-ico" data-icon="search" data-icon-size="16"></span>
       <span id="search-box-label" style="color:var(--text-dim);font-size:.85rem;">Search everything…</span>
       <span style="flex:1;"></span>
       <kbd>/</kbd>
     </div>
-    <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">◐</button>
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme"></button>
   </header>
 
   <main id="main" tabindex="-1"></main>
@@ -888,14 +1041,247 @@ function navigate(path){ location.hash = path; }
 /* =========================================================
    6. NAV / SIDEBAR / HEADER
    ========================================================= */
+/* ============================================================
+   Inline SVG diagrams — one per chapter.
+   Plain SVG, themed with CSS variables, responsive via viewBox.
+   ============================================================ */
+var DIAGRAMS = {
+
+/* 1 — The Stress Response: activation curve, regulated vs not */
+"ch-stress-response": {
+  caption: "A stress response that returns to baseline, and one that never does.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Line chart: activation rises sharply after a trigger, then either returns to baseline (regulated) or stays elevated (unregulated).">'+
+  '<line class="dg-axis" x1="50" y1="240" x2="670" y2="240"/>'+
+  '<line class="dg-axis" x1="50" y1="40" x2="50" y2="240"/>'+
+  '<line class="dg-base" x1="50" y1="228" x2="670" y2="228"/>'+
+  '<text class="dg-lbl" x="54" y="258">baseline</text>'+
+  '<text class="dg-lbl" x="54" y="32">activation</text>'+
+  '<text class="dg-lbl" x="640" y="258" text-anchor="end">time</text>'+
+  '<path class="dg-line bad" d="M50 228 C110 228 118 70 160 62 C230 52 280 92 360 118 C470 152 570 176 670 188"/>'+
+  '<path class="dg-line accent" d="M50 228 C110 228 118 70 160 62 C205 56 232 120 300 186 C340 224 400 228 470 228 L670 228"/>'+
+  '<line class="dg-guide" x1="160" y1="62" x2="160" y2="240"/>'+
+  '<circle class="dg-dot accent" cx="160" cy="62" r="4.5"/>'+
+  '<text class="dg-lbl strong" x="168" y="56">trigger &amp; peak</text>'+
+  '<text class="dg-lbl accent-t" x="300" y="176">returns to baseline</text>'+
+  '<text class="dg-lbl bad-t" x="470" y="140">stays elevated</text>'+
+  '<text class="dg-lbl" x="470" y="158">(the same alarm, refed)</text>'+
+  '</svg>'
+},
+
+/* 2 — The Story You Tell: two branches after a setback */
+"ch-story-you-tell": {
+  caption: "The same setback, two stories, two different next moves.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Flow diagram: a setback leads either to a permanent story and avoidance, or to a specific story and a next testable action.">'+
+  '<rect class="dg-box" x="280" y="26" width="140" height="44" rx="10"/>'+
+  '<text class="dg-t strong" x="350" y="53" text-anchor="middle">A setback</text>'+
+  '<path class="dg-flow" d="M310 70 L200 118" marker-end="url(#dg-arrow)"/>'+
+  '<path class="dg-flow accent" d="M390 70 L500 118" marker-end="url(#dg-arrow-accent)"/>'+
+  '<rect class="dg-box bad-b" x="80" y="122" width="230" height="44" rx="10"/>'+
+  '<text class="dg-t bad-t" x="195" y="149" text-anchor="middle">“I always do this” — permanent</text>'+
+  '<rect class="dg-box good-b" x="392" y="122" width="230" height="44" rx="10"/>'+
+  '<text class="dg-t good-t" x="507" y="149" text-anchor="middle">“that method missed” — specific</text>'+
+  '<path class="dg-flow" d="M195 166 L195 206" marker-end="url(#dg-arrow)"/>'+
+  '<path class="dg-flow accent" d="M507 166 L507 206" marker-end="url(#dg-arrow-accent)"/>'+
+  '<rect class="dg-box" x="90" y="210" width="210" height="44" rx="10"/>'+
+  '<text class="dg-t" x="195" y="237" text-anchor="middle">Avoid the domain</text>'+
+  '<rect class="dg-box" x="402" y="210" width="210" height="44" rx="10"/>'+
+  '<text class="dg-t" x="507" y="237" text-anchor="middle">One testable next action</text>'+
+  '<text class="dg-lbl" x="350" y="284" text-anchor="middle">the event is identical; only the story differs</text>'+
+  '</svg>'
+},
+
+/* 3 — Recovery Is a Skill: sawtooth with vs without scheduled recovery */
+"ch-recovery-skill": {
+  caption: "Capacity with scheduled recovery, and without it.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Line chart: with scheduled recovery capacity oscillates and stays high; without recovery it declines steadily.">'+
+  '<line class="dg-axis" x1="50" y1="250" x2="670" y2="250"/>'+
+  '<line class="dg-axis" x1="50" y1="40" x2="50" y2="250"/>'+
+  '<text class="dg-lbl" x="54" y="268">days</text>'+
+  '<text class="dg-lbl" x="54" y="32">capacity</text>'+
+  '<path class="dg-line accent" d="M50 92 L140 140 L175 96 L265 148 L300 100 L390 152 L425 104 L515 156 L550 108 L640 160"/>'+
+  '<path class="dg-line bad" d="M50 92 C170 130 250 176 340 208 C430 238 560 246 670 250"/>'+
+  '<circle class="dg-dot accent" cx="175" cy="96" r="4"/>'+
+  '<circle class="dg-dot accent" cx="300" cy="100" r="4"/>'+
+  '<circle class="dg-dot accent" cx="425" cy="104" r="4"/>'+
+  '<text class="dg-lbl accent-t" x="230" y="86">micro-recovery</text>'+
+  '<text class="dg-lbl bad-t" x="430" y="196">no scheduled recovery</text>'+
+  '<text class="dg-lbl" x="470" y="216">the dip you then push through</text>'+
+  '</svg>'
+},
+
+/* 4 — Discipline Systems: willpower drains through the day */
+"ch-discipline-systems": {
+  caption: "Decision capacity through the day, with and without pre-decided defaults.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Bar chart: decision capacity falls through the day; a pre-decided system keeps the evening floor higher.">'+
+  '<line class="dg-axis" x1="50" y1="240" x2="670" y2="240"/>'+
+  '<g class="dg-bars">'+
+  '<rect class="dg-bar" x="80" y="70" width="52" height="170" rx="6"/>'+
+  '<rect class="dg-bar" x="170" y="104" width="52" height="136" rx="6"/>'+
+  '<rect class="dg-bar" x="260" y="140" width="52" height="100" rx="6"/>'+
+  '<rect class="dg-bar" x="350" y="172" width="52" height="68" rx="6"/>'+
+  '<rect class="dg-bar" x="440" y="200" width="52" height="40" rx="6"/>'+
+  '<rect class="dg-bar" x="530" y="214" width="52" height="26" rx="6"/>'+
+  '</g>'+
+  '<path class="dg-line accent dash" d="M106 60 L556 150"/>'+
+  '<circle class="dg-dot accent" cx="556" cy="150" r="4"/>'+
+  '<text class="dg-lbl" x="86" y="264">morning</text>'+
+  '<text class="dg-lbl" x="430" y="264">evening</text>'+
+  '<text class="dg-lbl accent-t" x="566" y="146">pre-decided floor</text>'+
+  '<text class="dg-lbl bad-t" x="330" y="196">raw willpower</text>'+
+  '</svg>'
+},
+
+/* 5 — The Setback Ledger: entries converge into a pattern */
+"ch-setback-ledger": {
+  caption: "Individually isolated events; read together, a pattern.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Diagram: three logged setbacks each with four lines converge into a single named pattern.">'+
+  '<g class="dg-lbl">'+
+  '<text x="70" y="34">what happened</text><text x="70" y="52">trigger</text><text x="70" y="70">differently</text><text x="70" y="88">pattern</text>'+
+  '</g>'+
+  '<rect class="dg-box" x="52" y="98" width="150" height="110" rx="10"/>'+
+  '<rect class="dg-box" x="222" y="98" width="150" height="110" rx="10"/>'+
+  '<rect class="dg-box" x="392" y="98" width="150" height="110" rx="10"/>'+
+  '<text class="dg-t" x="127" y="142" text-anchor="middle">missed</text><text class="dg-t" x="127" y="160" text-anchor="middle">deadline</text>'+
+  '<text class="dg-t" x="297" y="142" text-anchor="middle">cold call</text><text class="dg-t" x="297" y="160" text-anchor="middle">no plan</text>'+
+  '<text class="dg-t" x="467" y="142" text-anchor="middle">said yes</text><text class="dg-t" x="467" y="160" text-anchor="middle">too fast</text>'+
+  '<path class="dg-flow accent" d="M127 208 L300 236" marker-end="url(#dg-arrow-accent)"/>'+
+  '<path class="dg-flow accent" d="M297 208 L320 236" marker-end="url(#dg-arrow-accent)"/>'+
+  '<path class="dg-flow accent" d="M467 208 L340 236" marker-end="url(#dg-arrow-accent)"/>'+
+  '<rect class="dg-box accent-b" x="470" y="212" width="180" height="46" rx="10"/>'+
+  '<text class="dg-t accent-t" x="560" y="240" text-anchor="middle">pattern: “no buffer”</text>'+
+  '<text class="dg-lbl" x="70" y="286">the word that repeats is the lesson</text>'+
+  '</svg>'
+},
+
+/* 6 — Sustained Effort: consistency beats intensity */
+"ch-sustained-effort": {
+  caption: "Consistency at low intensity against intensity without consistency.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Line chart over eight weeks: small daily practice rises steadily; sporadic high-intensity effort stays flat and falls off.">'+
+  '<line class="dg-axis" x1="50" y1="250" x2="670" y2="250"/>'+
+  '<line class="dg-axis" x1="50" y1="40" x2="50" y2="250"/>'+
+  '<text class="dg-lbl" x="54" y="32">baseline</text>'+
+  '<text class="dg-lbl" x="640" y="268" text-anchor="end">weeks</text>'+
+  '<path class="dg-line accent" d="M50 226 C150 214 240 190 340 164 C450 134 570 104 670 84"/>'+
+  '<path class="dg-line bad" d="M50 226 L120 150 L150 226 L220 128 L250 226 L320 160 L360 232 L420 210 C520 196 610 214 670 232"/>'+
+  '<text class="dg-lbl accent-t" x="470" y="118">2 minutes, every day</text>'+
+  '<text class="dg-lbl bad-t" x="300" y="222">20 minutes, now and then</text>'+
+  '<text class="dg-lbl" x="70" y="286">the payoff shows up after the point most people stop</text>'+
+  '</svg>'
+},
+
+/* 7 — Field Manual: the 90-second wave */
+"ch-field-breathe": {
+  caption: "A wave left alone recedes; a wave you keep feeding does not.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Curve: a strong emotion peaks and recedes in about ninety seconds, unless it keeps being refed, which extends it.">'+
+  '<line class="dg-axis" x1="50" y1="240" x2="670" y2="240"/>'+
+  '<line class="dg-guide" x1="250" y1="60" x2="250" y2="240"/>'+
+  '<path class="dg-line accent" d="M50 236 C120 232 150 90 250 84 C330 80 360 200 430 228 L670 238"/>'+
+  '<path class="dg-line bad dash" d="M250 84 C330 80 340 130 400 96 C470 58 500 170 570 130 C620 102 650 150 670 168"/>'+
+  '<text class="dg-lbl accent-t" x="286" y="74">left alone: recedes</text>'+
+  '<text class="dg-lbl bad-t" x="430" y="52">refed: keeps going</text>'+
+  '<text class="dg-lbl" x="196" y="262">0s</text>'+
+  '<text class="dg-lbl" x="238" y="262">~90s</text>'+
+  '<text class="dg-lbl" x="60" y="286">long exhale · name it · change position</text>'+
+  '</svg>'
+},
+
+/* 8 — Field Manual: the two-sentence script */
+"ch-field-script": {
+  caption: "Two sentences carry the message; everything after them is the argument starting.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Flow: an observable fact plus a specific ask; history and character assessment are excluded.">'+
+  '<rect class="dg-box good-b" x="60" y="96" width="200" height="56" rx="10"/>'+
+  '<text class="dg-t strong" x="160" y="120" text-anchor="middle">1 · the fact</text>'+
+  '<text class="dg-t" x="160" y="139" text-anchor="middle">what is observable</text>'+
+  '<path class="dg-flow accent" d="M262 124 L300 124" marker-end="url(#dg-arrow-accent)"/>'+
+  '<rect class="dg-box good-b" x="304" y="96" width="200" height="56" rx="10"/>'+
+  '<text class="dg-t strong" x="404" y="120" text-anchor="middle">2 · the ask</text>'+
+  '<text class="dg-t" x="404" y="139" text-anchor="middle">what you need next</text>'+
+  '<path class="dg-flow accent" d="M506 124 L544 124" marker-end="url(#dg-arrow-accent)"/>'+
+  '<rect class="dg-box accent-b" x="548" y="96" width="112" height="56" rx="10"/>'+
+  '<text class="dg-t accent-t" x="604" y="129" text-anchor="middle">sent</text>'+
+  '<rect class="dg-box bad-b dash" x="150" y="196" width="410" height="52" rx="10"/>'+
+  '<text class="dg-t bad-t" x="355" y="228" text-anchor="middle">history · “you always…” · character assessment</text>'+
+  '<path class="dg-strike" d="M170 212 L540 232"/>'+
+  '<text class="dg-lbl" x="70" y="286">hold the line at two sentences</text>'+
+  '</svg>'
+},
+
+/* 9 — Field Manual: the five-minute close */
+"ch-field-review": {
+  caption: "Three lines captured, so the mind can stop holding the loop open.",
+  svg:
+  '<svg class="dg" viewBox="0 0 700 300" role="img" aria-label="Three boxes — tomorrow’s one thing, one thing that went right, one thing deferred — converge into a released loop.">'+
+  '<rect class="dg-box" x="40" y="46" width="210" height="52" rx="10"/>'+
+  '<text class="dg-t" x="145" y="77" text-anchor="middle">tomorrow’s one thing</text>'+
+  '<rect class="dg-box" x="40" y="118" width="210" height="52" rx="10"/>'+
+  '<text class="dg-t" x="145" y="149" text-anchor="middle">one thing that went right</text>'+
+  '<rect class="dg-box" x="40" y="190" width="210" height="52" rx="10"/>'+
+  '<text class="dg-t" x="145" y="221" text-anchor="middle">one thing left until tomorrow</text>'+
+  '<path class="dg-flow accent" d="M252 72 L340 140" marker-end="url(#dg-arrow-accent)"/>'+
+  '<path class="dg-flow accent" d="M252 144 L340 144" marker-end="url(#dg-arrow-accent)"/>'+
+  '<path class="dg-flow accent" d="M252 216 L340 148" marker-end="url(#dg-arrow-accent)"/>'+
+  '<rect class="dg-box accent-b" x="346" y="106" width="300" height="76" rx="12"/>'+
+  '<text class="dg-t strong" x="496" y="138" text-anchor="middle">the loop is captured</text>'+
+  '<text class="dg-t" x="496" y="160" text-anchor="middle">so the mind can release it</text>'+
+  '<text class="dg-lbl" x="40" y="278">five minutes · then close the notebook</text>'+
+  '</svg>'
+}
+};
+
+/* ---------- icon helper ---------- */
+function icon(name, cls, size){
+  var s = size || 18;
+  return '<svg class="icon '+(cls||'')+'" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" '+
+    'stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" '+
+    'aria-hidden="true" focusable="false"><use href="#i-'+name+'" xlink:href="#i-'+name+'"></use></svg>';
+}
+/* Fill any [data-icon] element with its sprite icon (once). */
+function decorateIcons(root){
+  var scope = root || document;
+  var els = scope.querySelectorAll('[data-icon]:not([data-icon-done])');
+  for (var i = 0; i < els.length; i++){
+    var el = els[i];
+    el.setAttribute('data-icon-done', '1');
+    var size = parseInt(el.getAttribute('data-icon-size'), 10) || 18;
+    el.insertAdjacentHTML('afterbegin', icon(el.getAttribute('data-icon'), '', size));
+  }
+}
+function diagramBlock(chapterId){
+  var d = DIAGRAMS[chapterId];
+  if (!d) return "";
+  return '<figure class="diagram">' + d.svg +
+         '<figcaption>' + escapeHtml(d.caption) + '</figcaption></figure>';
+}
+/* Keep dynamically-rendered icons filled. */
+(function watchIcons(){
+  try{
+    decorateIcons(document);
+    var queued = false;
+    new MutationObserver(function(){
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function(){ queued = false; try{ decorateIcons(document); }catch(_){} });
+    }).observe(document.body, { childList:true, subtree:true });
+  }catch(_){}
+})();
+
+
 const NAV_ITEMS = [
-  {id:"dashboard", label:"Dashboard", icon:"◆"},
-  {id:"library", label:"Library", icon:"▤"},
-  {id:"journal", label:"Journal", icon:"✎"},
-  {id:"trackers", label:"Trackers", icon:"▲"},
-  {id:"challenges", label:"Challenges", icon:"◉"},
-  {id:"insights", label:"Insights", icon:"◐"},
-  {id:"settings", label:"Settings", icon:"⚙"}
+  {id:"dashboard", label:"Dashboard", icon:"grid"},
+  {id:"library", label:"Library", icon:"book"},
+  {id:"journal", label:"Journal", icon:"pen"},
+  {id:"trackers", label:"Trackers", icon:"activity"},
+  {id:"challenges", label:"Challenges", icon:"target"},
+  {id:"insights", label:"Insights", icon:"chart"},
+  {id:"settings", label:"Settings", icon:"settings"}
 ];
 
 function renderNav(activeView){
@@ -1153,11 +1539,11 @@ function renderDashboard(){
         <div class="entry-card">
           <div class="entry-head"><span>${fmtDate(j.date)}</span><span>${j.mood?('mood '+j.mood+'/5'):''}</span></div>
           <p>${escapeHtml(j.text.slice(0,160))}${j.text.length>160?'…':''}</p>
-        </div>`).join("") : `<div class="empty-state"><div class="glyph">✎</div>No journal entries yet. <a href="#/journal">Write your first one.</a></div>`}
+        </div>`).join("") : `<div class="empty-state"><div class="glyph" data-icon="pen" data-icon-size="30"></div>No journal entries yet. <a href="#/journal">Write your first one.</a></div>`}
 
       <div class="section-title">Favorite Quotes</div>
       ${favQuotes.length ? favQuotes.map(c=>`<div class="block"><blockquote style="margin:0;">"${escapeHtml(c.quote)}"</blockquote><p style="margin:.4rem 0 0;font-size:.8rem;color:var(--text-dim);">— ${escapeHtml(c.title)}</p></div>`).join("")
-        : `<div class="empty-state"><div class="glyph">❝</div>No favorites yet. Star a quote while reading.</div>`}
+        : `<div class="empty-state"><div class="glyph" data-icon="quote" data-icon-size="30"></div>No favorites yet. Star a quote while reading.</div>`}
     </div>
   `;
 }
@@ -1479,7 +1865,7 @@ function renderJournal(){
 
       <div class="section-title">Entries (<span id="journal-count">${entries.length}</span>)</div>
       <div id="journal-list">
-        ${entries.length ? entries.map(entryCard).join("") : `<div class="empty-state"><div class="glyph">✎</div>Nothing written yet for this filter.</div>`}
+        ${entries.length ? entries.map(entryCard).join("") : `<div class="empty-state"><div class="glyph" data-icon="pen" data-icon-size="30"></div>Nothing written yet for this filter.</div>`}
       </div>
     </div>
   `;
@@ -1523,7 +1909,7 @@ function renderJournal(){
     journalFilter = b.dataset.f;
     document.querySelectorAll("#journal-filter-tabs button").forEach(x=>x.classList.toggle("active", x===b));
     const entries = state.journal.slice().reverse().filter(j=>journalFilter==="all" || j.type===journalFilter);
-    document.getElementById("journal-list").innerHTML = entries.length ? entries.map(entryCard).join("") : `<div class="empty-state"><div class="glyph">✎</div>Nothing written yet for this filter.</div>`;
+    document.getElementById("journal-list").innerHTML = entries.length ? entries.map(entryCard).join("") : `<div class="empty-state"><div class="glyph" data-icon="pen" data-icon-size="30"></div>Nothing written yet for this filter.</div>`;
     const count = document.getElementById("journal-count");
     if(count) count.textContent = entries.length;
   });
@@ -1599,7 +1985,7 @@ function renderWorksheets(worksheetId){
 
       <div class="section-title">History (${history.length})</div>
       <div id="worksheet-history">
-        ${history.length ? history.map(entry=>worksheetHistoryCard(ws, entry)).join("") : `<div class="empty-state"><div class="glyph">▦</div>No saved entries yet.</div>`}
+        ${history.length ? history.map(entry=>worksheetHistoryCard(ws, entry)).join("") : `<div class="empty-state"><div class="glyph" data-icon="layers" data-icon-size="30"></div>No saved entries yet.</div>`}
       </div>
     </div>
   `;
@@ -1951,7 +2337,7 @@ function renderTrackers(){
             <div class="entry-head"><span>${fmtDate(t.date)}</span><span>value ${t.value}</span></div>
             ${t.notes ? `<p>${escapeHtml(t.notes)}</p>` : ""}
             <div class="entry-actions"><button data-del-tracker="${t.id}">Delete</button></div>
-          </div>`).join("") : `<div class="empty-state"><div class="glyph">▲</div>No entries yet for ${tracker.label}.</div>`}
+          </div>`).join("") : `<div class="empty-state"><div class="glyph" data-icon="activity" data-icon-size="30"></div>No entries yet for ${tracker.label}.</div>`}
       </div>
     </div>
   `;
@@ -2485,7 +2871,7 @@ applyTheme = function(){
   document.body.style.fontSize = (state.settings.fontSize||16)+"px";
   document.body.style.fontWeight = state.settings.fontWeight||"normal";
   const btn = document.getElementById("theme-toggle");
-  if(btn){ btn.setAttribute("aria-pressed", t==="dark"||t==="oled"||t==="contrast"); btn.textContent = t==="dark"||t==="oled" ? "◑" : "◐"; }
+  if(btn){ btn.setAttribute("aria-pressed", t==="dark"||t==="oled"||t==="contrast"); btn.innerHTML = icon(t==="dark"||t==="oled"||t==="contrast" ? "sun" : "moon", "", 18); }
 };
 try{ if(window.matchMedia){ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ()=>{ if(state.settings.theme==="auto") applyTheme(); }); } }catch(_){}
 
@@ -2750,14 +3136,14 @@ const EXTRA_VIEWS = {};
    ============================================================ */
 
 /* ---------- nav ---------- */
-NAV_ITEMS.push({id:"review", label:"Review", icon:"⟳"});
-NAV_ITEMS.push({id:"bookmarks", label:"Bookmarks", icon:"★"});
+NAV_ITEMS.push({id:"review", label:"Review", icon:"refresh"});
+NAV_ITEMS.push({id:"bookmarks", label:"Bookmarks", icon:"bookmark"});
 
 renderNav = function(activeView){
   const nav = document.getElementById("primary-nav");
   nav.innerHTML = NAV_ITEMS.map(item=>{
     const current = activeView===item.id ? ' aria-current="page"' : "";
-    return '<a href="#/'+item.id+'"'+current+'><span class="nav-icon">'+item.icon+'</span>'+escapeHtml(item.label)+'</a>';
+    return '<a href="#/'+item.id+'"'+current+'><span class="nav-icon" data-icon="'+item.icon+'" data-icon-size="18"></span><span class="nav-text">'+escapeHtml(item.label)+'</span></a>';
   }).join("");
   const recentBox = document.getElementById("recent-list");
   const recents = getRecentChapters();
@@ -2879,11 +3265,11 @@ renderDashboard = function(){
 
     '<div class="section-title">On this day</div>'+
     (onThisDay().length ? onThisDay().map(j=>'<div class="entry-card"><div class="entry-head"><span>'+fmtDate(j.date)+'</span></div><p>'+escapeHtml((j.text||"").slice(0,200))+'</p></div>').join("")
-      : '<div class="empty-state"><div class="glyph">◷</div>Nothing from this date in past years yet.</div>')+
+      : '<div class="empty-state"><div class="glyph" data-icon="clock" data-icon-size="30"></div>Nothing from this date in past years yet.</div>')+
 
     '<div class="section-title">Favorite quotes</div>'+
     (favQuotes.length ? favQuotes.map(c=>'<div class="block"><blockquote style="margin:0;">"'+escapeHtml(c.quote)+'"</blockquote><p style="margin:.4rem 0 0;font-size:.8rem;color:var(--text-dim);">— '+escapeHtml(c.title)+'</p></div>').join("")
-      : '<div class="empty-state"><div class="glyph">❝</div>No favourites yet. Star a quote while reading.</div>')+
+      : '<div class="empty-state"><div class="glyph" data-icon="quote" data-icon-size="30"></div>No favourites yet. Star a quote while reading.</div>')+
 
     '<div class="section-title">Shortcuts</div>'+
     '<p class="muted">Press <kbd>?</kbd> for keyboard shortcuts, <kbd>/</kbd> to search, <kbd>Ctrl/⌘ K</kbd> for the command palette.</p>'
@@ -2972,21 +3358,22 @@ renderReader = function(chapterId){
       '<h1>'+escapeHtml(ch.title)+'</h1><p class="lede">'+escapeHtml(ch.subtitle)+'</p>'+
       '<div id="reader-progress-bar"><div id="reader-progress-fill" style="width:'+(prog.percent||0)+'%"></div></div>'+
       '<div class="reader-toolbar">'+
-        '<button id="btn-bookmark" class="'+(bm?"active":"")+'">'+(bm?"★ Bookmarked":"☆ Bookmark")+'</button>'+
-        '<button id="btn-fav" class="'+(isFav?"active":"")+'">'+(isFav?"♥ Favourited":"♡ Favourite quote")+'</button>'+
-        '<button id="btn-hl-amber" title="Highlight selection (amber)">Highlight</button>'+
-        '<button id="btn-tts" title="Read aloud">Read aloud</button>'+
-        '<button id="btn-print">Print</button>'+
-        '<button id="btn-toc">Contents</button>'+
-        '<button id="btn-focus">Focus mode</button>'+
-        '<button id="btn-dim" title="Dim non-active paragraphs">Dim: '+(state.settings.dim?"on":"off")+'</button>'+
-        '<button id="btn-spacing" title="Cycle line spacing">Spacing: '+(state.settings.lineSpacing||"comfortable")+'</button>'+
-        '<button id="btn-width" title="Cycle reading width">Width: '+(state.settings.readingWidth||"medium")+'</button>'+
+        '<button id="btn-bookmark" data-icon="bookmark" class="'+(bm?"active":"")+'">'+(bm?"Bookmarked":"Bookmark")+'</button>'+
+        '<button id="btn-fav" data-icon="heart" class="'+(isFav?"active":"")+'">'+(isFav?"Favourited":"Favourite")+'</button>'+
+        '<button id="btn-hl-amber" data-icon="marker" title="Highlight the selected text">Highlight</button>'+
+        '<button id="btn-tts" data-icon="speaker" title="Read this chapter aloud">Read aloud</button>'+
+        '<button id="btn-print" data-icon="print">Print</button>'+
+        '<button id="btn-toc" data-icon="list">Contents</button>'+
+        '<button id="btn-focus" data-icon="expand">Focus</button>'+
+        '<button id="btn-dim" data-icon="contrast" title="Dim non-active paragraphs">Dim: '+(state.settings.dim?"on":"off")+'</button>'+
+        '<button id="btn-spacing" data-icon="align" title="Cycle line spacing">Spacing: '+(state.settings.lineSpacing||"comfortable")+'</button>'+
+        '<button id="btn-width" data-icon="width" title="Cycle reading width">Width: '+(state.settings.readingWidth||"medium")+'</button>'+
       '</div>'+
       '<article class="reader-body spacing-'+(state.settings.lineSpacing||"comfortable")+'" id="reader-article">'+
         ch.body.map(p=>'<p>'+escapeHtml(p)+'</p>').join("")+
         '<blockquote>"'+escapeHtml(ch.quote)+'"</blockquote>'+
       '</article>'+
+      diagramBlock(ch.id)+
       '<div class="block"><h4>Reflection</h4><p>'+escapeHtml(ch.reflection)+'</p></div>'+
       '<div class="block"><h4>Exercise</h4><p>'+escapeHtml(ch.exercise)+'</p></div>'+
       '<div class="block"><h4>Your notes</h4>'+
@@ -3330,7 +3717,7 @@ renderJournal = function(){
     (otd.length?'<div class="section-title">On this day</div>'+otd.map(j=>'<div class="entry-card otd"><div class="entry-head"><span>'+fmtDate(j.date)+'</span></div><p>'+escapeHtml((j.text||"").slice(0,180))+'</p></div>').join(""):"")+
 
     '<div class="section-title">Entries (<span id="journal-count">'+entries.length+'</span>)</div>'+
-    '<div id="journal-list">'+(entries.length?entries.map(entryCard).join(""):'<div class="empty-state"><div class="glyph">✎</div>Nothing written yet for this filter.</div>')+'</div>'
+    '<div id="journal-list">'+(entries.length?entries.map(entryCard).join(""):'<div class="empty-state"><div class="glyph" data-icon="pen" data-icon-size="30"></div>Nothing written yet for this filter.</div>')+'</div>'
   );
 
   const typeSelect=document.getElementById("j-type"), promptBox=document.getElementById("j-prompt"), chapterRow=document.getElementById("j-chapter-row");
@@ -3407,7 +3794,7 @@ renderJournal = function(){
       if(journalText && !((j.text||"").toLowerCase().includes(journalText.toLowerCase()))) return false;
       return true;
     });
-    document.getElementById("journal-list").innerHTML = list.length?list.map(entryCard).join(""):'<div class="empty-state"><div class="glyph">✎</div>Nothing written yet for this filter.</div>';
+    document.getElementById("journal-list").innerHTML = list.length?list.map(entryCard).join(""):'<div class="empty-state"><div class="glyph" data-icon="pen" data-icon-size="30"></div>Nothing written yet for this filter.</div>';
     const c=document.getElementById("journal-count"); if(c) c.textContent=list.length;
   }
 
@@ -3479,7 +3866,7 @@ renderTrackers = function(){
     '<div class="section-title">Entries ('+entries.length+')</div><div id="tracker-list">'+
       (entries.length?entries.map(t=>'<div class="entry-card"><div class="entry-head"><span>'+fmtDate(t.date)+'</span><span>value '+t.value+'</span></div>'+
         (t.notes?'<p>'+escapeHtml(t.notes)+'</p>':"")+'<div class="entry-actions"><button data-edit-tracker="'+t.id+'">Edit</button><button data-del-tracker="'+t.id+'">Delete</button></div></div>').join("")
-        :'<div class="empty-state"><div class="glyph">▲</div>No entries yet for '+escapeHtml(tracker.label)+'.</div>')+'</div>'
+        :'<div class="empty-state"><div class="glyph" data-icon="activity" data-icon-size="30"></div>No entries yet for '+escapeHtml(tracker.label)+'.</div>')+'</div>'
   );
 
   document.getElementById("tracker-tabs").addEventListener("click", e=>{
@@ -3793,7 +4180,7 @@ EXTRA_VIEWS.bookmarks = function(){
   const body = state.bookmarks.length ? state.bookmarks.slice().reverse().map(b=>{ const c=getChapter(b.chapterId); if(!c) return "";
     return '<div class="entry-card"><div class="entry-head"><span>'+escapeHtml(c.title)+'</span><span>'+fmtDate(todayKey(new Date(b.createdAt||Date.now())))+'</span></div>'+
       '<p>'+escapeHtml(b.label||"")+'</p><div class="entry-actions"><a href="#/reader/'+c.id+'">Open</a><button data-del-bm="'+b.id+'">Delete</button></div></div>'; }).join("")
-    : '<div class="empty-state"><div class="glyph">★</div>No bookmarks yet. Star chapters while reading.</div>';
+    : '<div class="empty-state"><div class="glyph" data-icon="bookmark" data-icon-size="30"></div>No bookmarks yet. Star chapters while reading.</div>';
   main.innerHTML = viewShell("Bookmarks","Labelled places you want to return to.",body);
   document.getElementById("main").addEventListener("click", e=>{ const b=e.target.closest("[data-del-bm]"); if(b){ const id=b.dataset.delBm; const idx=state.bookmarks.findIndex(x=>x.id===id); if(idx<0) return; const [rm]=state.bookmarks.splice(idx,1); persist(); render(); toastAction("Bookmark deleted.","Undo",()=>{ state.bookmarks.splice(idx,0,rm); persist(); render(); }); } });
 };
@@ -3803,7 +4190,7 @@ EXTRA_VIEWS.favorites = function(){
   const favs=CONTENT.chapters.filter(c=>state.favorites.includes(c.id));
   const body = favs.length ? favs.map(c=>'<div class="block"><blockquote style="margin:0;">"'+escapeHtml(c.quote)+'"</blockquote>'+
     '<p style="margin:.4rem 0 0;font-size:.8rem;color:var(--text-dim);">— '+escapeHtml(c.title)+' · <a href="#/reader/'+c.id+'">open</a></p></div>').join("")
-    : '<div class="empty-state"><div class="glyph">❝</div>No favourite quotes yet.</div>';
+    : '<div class="empty-state"><div class="glyph" data-icon="quote" data-icon-size="30"></div>No favourite quotes yet.</div>';
   main.innerHTML = viewShell("Favourite quotes","Quotes you've starred.",body);
 };
 
@@ -3823,7 +4210,7 @@ EXTRA_VIEWS.review = function(){
           '<button class="btn" id="rev-show">Show answer</button>'+
           '<span id="rev-grade" hidden><button class="btn secondary" data-q="2">Again</button><button class="btn secondary" data-q="3">Hard</button><button class="btn" data-q="4">Good</button><button class="btn" data-q="5">Easy</button></span>'+
         '</div></div>'
-      : '<div class="empty-state"><div class="glyph">✓</div>Nothing due right now. Come back tomorrow.</div>')
+      : '<div class="empty-state"><div class="glyph" data-icon="check" data-icon-size="30"></div>Nothing due right now. Come back tomorrow.</div>')
   );
   if(it){
     document.getElementById("rev-show").addEventListener("click", ()=>{ document.getElementById("rev-answer").hidden=false; document.getElementById("rev-show").hidden=true; document.getElementById("rev-grade").hidden=false; });
@@ -3976,7 +4363,7 @@ function initGlobalKeys(){
 })();
 
 /* ---------- version ---------- */
-const APP_VERSION = "3.0";
+const APP_VERSION = "3.1";
 
 /* ---------- boot (replaces the original) ---------- */
 function boot(){

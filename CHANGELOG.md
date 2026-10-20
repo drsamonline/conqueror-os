@@ -23,6 +23,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README now separates **code (MIT)** from **content (© all rights reserved)**
   and documents the distinction.
 
+## [3.1.0] — 2026-10-20
+
+### Added
+
+- **Inline SVG diagrams** — nine hand-built, theme-aware diagrams, one per
+  chapter, rendered in the reader beneath the text: the stress-response curve,
+  the two-stories branch, recovery vs. no recovery, the willpower drain, the
+  setback-ledger pattern, consistency vs. intensity, the 90-second wave, the
+  two-sentence script, and the five-minute close. They adapt to every theme
+  (including high-contrast and OLED) and print correctly.
+- **A full SVG icon system** — one inline sprite of ~50 symbols replaces every
+  text and Unicode glyph across navigation, the header, the reader toolbar,
+  buttons, empty states and controls. Icons inherit the theme colour and stay
+  crisp at any zoom level.
+
+### Changed
+
+- Visual polish: rounded navigation items with an accent active state, softer
+  cards, icon-led empty states, a tidier reader toolbar, and a refined
+  blockquote and figure treatment.
+
+### Fixed
+
+- Unicode glyphs (◆ ▤ ✎ ▲ ◉ ◐ ⚙ ⟳ ★ and the empty-state marks ✎ ❝ ▦ ◷ ✓) rendered
+  inconsistently across platforms and fonts. They are now vector icons.
+
 ## [Unreleased]
 
 - Planned: optional service worker for installable/offline use when served over HTTP.
@@ -90,7 +116,8 @@ A large feature release: the app was audited, fixed, compressed and then substan
 
 - Initial single-file application: library/reader, journal, trackers, worksheets, challenges, knowledge graph, insights, settings, backup/restore, light/dark theming, print styles.
 
-[Unreleased]: https://github.com/drsamonline/conqueror-os/compare/v3.0.1...HEAD
+[Unreleased]: https://github.com/drsamonline/conqueror-os/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/drsamonline/conqueror-os/compare/v3.0.1...v3.1.0
 [3.0.1]: https://github.com/drsamonline/conqueror-os/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/drsamonline/conqueror-os/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/drsamonline/conqueror-os/compare/v1.0.0...v2.0.0
