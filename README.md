@@ -1,6 +1,7 @@
 <!-- Badges and links are configured for github.com/drsamonline/conqueror-os -->
 
 [![CI](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml/badge.svg)](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml)
+[![Website](https://img.shields.io/badge/website-live%20demo-4B7A51.svg)](https://drsamonline.github.io/conqueror-os/)
 [![Release](https://img.shields.io/github/v/release/drsamonline/conqueror-os?label=version&color=C7742A)](https://github.com/drsamonline/conqueror-os/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-C7742A.svg)](#license)
 [![Stars](https://img.shields.io/github/stars/drsamonline/conqueror-os?style=flat&color=C7742A)](https://github.com/drsamonline/conqueror-os/stargazers)
@@ -67,7 +68,9 @@ Conqueror OS is a self-contained personal application for building mental resili
 
 ## Quick start
 
-**Use it (no tooling required):**
+**Use it online (nothing to install):** **[drsamonline.github.io/conqueror-os](https://drsamonline.github.io/conqueror-os/)**
+
+**Or run the file yourself (no tooling required):**
 
 1. Download [`dist/conqueror-os.html`](dist/conqueror-os.html).
 2. Open it **directly in a browser tab** (double-click it, or *File → Open*).
@@ -181,6 +184,7 @@ The code uses ES2019 features (arrow functions, template literals, `String.proto
 
 ```
 conqueror-os/
+├── index.html                  # GitHub Pages entry point (same as dist/)
 ├── src/index.html              # readable source (the whole app)
 ├── dist/conqueror-os.html      # built, minified, single-file app
 ├── scripts/build.js            # minify src -> dist

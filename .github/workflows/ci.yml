@@ -60,10 +60,10 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run build
-      - name: Fail if dist/ differs from committed build
+      - name: Fail if build output differs from committed build
         run: |
-          if ! git diff --quiet -- dist/conqueror-os.html; then
-            echo "::error::dist/conqueror-os.html is out of date. Run 'npm run build' and commit the result."
-            git diff --stat -- dist/conqueror-os.html
+          if ! git diff --quiet -- dist/conqueror-os.html index.html; then
+            echo "::error::dist/conqueror-os.html and/or index.html are out of date. Run 'npm run build' and commit the result."
+            git diff --stat -- dist/conqueror-os.html index.html
             exit 1
           fi
