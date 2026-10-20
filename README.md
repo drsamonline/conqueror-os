@@ -3,7 +3,8 @@
 [![CI](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml/badge.svg)](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml)
 [![Website](https://img.shields.io/badge/website-live%20demo-4B7A51.svg)](https://drsamonline.github.io/conqueror-os/)
 [![Release](https://img.shields.io/github/v/release/drsamonline/conqueror-os?label=version&color=C7742A)](https://github.com/drsamonline/conqueror-os/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-C7742A.svg)](#license)
+[![License: MIT](https://img.shields.io/badge/code%20license-MIT-C7742A.svg)](#copyright-and-licensing)
+[![Content](https://img.shields.io/badge/content-%C2%A9%20all%20rights%20reserved-A8433A.svg)](#copyright-and-licensing)
 [![Stars](https://img.shields.io/github/stars/drsamonline/conqueror-os?style=flat&color=C7742A)](https://github.com/drsamonline/conqueror-os/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/drsamonline/conqueror-os)](https://github.com/drsamonline/conqueror-os/commits)
 [![Issues](https://img.shields.io/github/issues/drsamonline/conqueror-os)](https://github.com/drsamonline/conqueror-os/issues)
@@ -219,9 +220,25 @@ See [`docs/ROADMAP.md`](docs/ROADMAP.md). Near-term themes: an optional service 
 
 Contributions are welcome — please read [`CONTRIBUTING.md`](CONTRIBUTING.md) and the [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Commit messages follow [Conventional Commits](https://www.conventionalcommits.org).
 
-## License
+## Copyright and licensing
 
-Released under the [MIT License](LICENSE). © 2026 Dr Sohil Momin.
+**© 2026 Dr Sohil Momin. All rights reserved.**
+
+This project contains two different kinds of work, licensed separately:
+
+| | What it covers | Licence |
+|---|---|---|
+| **Software** | The HTML, CSS and JavaScript that make up the application | [MIT](LICENSE) — free to use, modify and redistribute |
+| **Written content** | The books, chapter text, reflections, exercises, prompts, worksheet and challenge copy, and the application's written interface text | [Content licence](CONTENT-LICENSE.md) — **© all rights reserved** |
+
+The written content is an **original work of authorship**. It is protected by
+copyright and is **not** covered by the MIT licence: it may be read and used for
+personal, non-commercial purposes, and short excerpts may be quoted with
+attribution, but it may not be reproduced, adapted, redistributed, used
+commercially, or used to train machine-learning models without written
+permission. See [`CONTENT-LICENSE.md`](CONTENT-LICENSE.md) for the full terms.
+
+For permission requests: **sohilmomin2000@gmail.com**
 
 ## Disclaimer
 

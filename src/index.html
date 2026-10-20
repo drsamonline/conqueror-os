@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Conqueror OS — a private, offline resilience workspace: read, reflect, journal, track and review, all in one file.">
+<!--
+  Conqueror OS — https://github.com/drsamonline/conqueror-os
+  Copyright © 2026 Dr Sohil Momin. All rights reserved.
+
+  Software (the HTML, CSS and JavaScript below): MIT Licence — see LICENSE.
+  Written content (the book, reflections, exercises, prompts, interface copy and
+  other creative material): an original work of authorship, all rights reserved
+  and NOT covered by the MIT Licence — see CONTENT-LICENSE.md.
+
+  SPDX-License-Identifier: MIT
+-->
+<meta name="author" content="Dr Sohil Momin">
+<meta name="copyright" content="© 2026 Dr Sohil Momin. Software under the MIT Licence; written content all rights reserved.">
 <meta name="theme-color" content="#C7742A">
 <meta name="color-scheme" content="light dark">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
@@ -118,6 +131,7 @@ nav.primary a[aria-current="page"]{background:var(--accent-soft);color:var(--ink
 .recent-box h3{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;margin:.2rem 0 .5rem;}
 .recent-box a{display:block;color:var(--text-dim);text-decoration:none;padding:.15rem 0;}
 .recent-box a:hover{color:var(--accent);}
+.copyright-note{padding:.55rem .8rem;border-top:1px solid var(--border);font-size:.68rem;color:var(--text-dim);opacity:.85;}
 
 #menu-toggle{display:none;background:none;border:1px solid var(--border);border-radius:var(--radius);padding:.3rem .6rem;cursor:pointer;}
 @media (max-width:820px){#menu-toggle{display:block;}}
@@ -450,6 +464,7 @@ mark.hl{ cursor:pointer; color:inherit; }
       <h3>Recent</h3>
       <div id="recent-list"></div>
     </div>
+    <div class="copyright-note">© 2026 Dr Sohil Momin</div>
   </aside>
 
   <header id="header">
@@ -3717,6 +3732,7 @@ renderSettings = function(){
 
     '<div class="settings-group"><h3>About</h3>'+
       '<p class="muted">Conqueror OS runs entirely in this browser tab — no server, no login, no analytics, no network requests after load. All data lives in this browser\'s local storage on this device only. Version '+APP_VERSION+'.</p>'+
+      '<p class="muted">© 2026 Dr Sohil Momin. All rights reserved. The software is licensed under the MIT Licence; the written content — the book, reflections, exercises and prompts — is an original work of authorship and is not covered by that licence.</p>'+
       '<p class="muted">Press <kbd>?</kbd> for shortcuts, <kbd>Ctrl/⌘ K</kbd> for the command palette.</p></div>'
   );
 

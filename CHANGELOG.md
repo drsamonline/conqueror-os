@@ -5,6 +5,24 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] — 2026-10-20
+
+### Added
+
+- **Content licence and copyright notice** — [`CONTENT-LICENSE.md`](CONTENT-LICENSE.md).
+  The written content (the books, chapter text, reflections, exercises, prompts
+  and interface copy) is now explicitly identified as an original work of
+  authorship, **Copyright © 2026 Dr Sohil Momin, all rights reserved**, and is
+  **not** covered by the MIT software licence.
+- Copyright notices inside the application itself: a document header comment,
+  `author` and `copyright` meta tags, a persistent line in the sidebar, and a
+  statement in **Settings → About**.
+
+### Changed
+
+- README now separates **code (MIT)** from **content (© all rights reserved)**
+  and documents the distinction.
+
 ## [Unreleased]
 
 - Planned: optional service worker for installable/offline use when served over HTTP.
@@ -72,7 +90,8 @@ A large feature release: the app was audited, fixed, compressed and then substan
 
 - Initial single-file application: library/reader, journal, trackers, worksheets, challenges, knowledge graph, insights, settings, backup/restore, light/dark theming, print styles.
 
-[Unreleased]: https://github.com/drsamonline/conqueror-os/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/drsamonline/conqueror-os/compare/v3.0.1...HEAD
+[3.0.1]: https://github.com/drsamonline/conqueror-os/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/drsamonline/conqueror-os/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/drsamonline/conqueror-os/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/drsamonline/conqueror-os/releases/tag/v1.0.0
