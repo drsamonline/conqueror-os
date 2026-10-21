@@ -1,3 +1,37 @@
+<!-- Banner — landing page: https://drsamonline.github.io/conqueror-os/ · demo: https://drsamonline.github.io/conqueror-os/play/ -->
+
+<p align="center">
+  <a href="https://drsamonline.github.io/conqueror-os/"><img src="https://socialify.git.ci/drsamonline/conqueror-os/image?name=1&owner=1&description=1&language=1&theme=Dark&font=Inter" alt="Conqueror OS — a private, offline resilience workspace in a single HTML file" width="680"></a>
+</p>
+
+<h1 align="center">Conqueror OS</h1>
+
+<p align="center"><strong>A private, offline resilience workspace that lives in a single HTML file.</strong><br>
+Read · reflect · journal · track · review — no server, no account, no build step required to run it.</p>
+
+<p align="center">
+  <a href="https://drsamonline.github.io/conqueror-os/"><strong>Landing page</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://drsamonline.github.io/conqueror-os/play/"><strong>Live demo</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/drsamonline/conqueror-os">Source</a>
+  &nbsp;·&nbsp;
+  <a href="docs/FEATURES.md">Features</a>
+  &nbsp;·&nbsp;
+  <a href="CHANGELOG.md">Changelog</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/drsamonline/conqueror-os/releases"><img alt="Release" src="https://img.shields.io/github/v/release/drsamonline/conqueror-os?label=version&color=C7742A"></a>
+  <a href="https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/code%20license-MIT-C7742A.svg"></a>
+  <a href="https://github.com/drsamonline/conqueror-os/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/drsamonline/conqueror-os?color=C7742A"></a>
+  <a href="https://github.com/drsamonline/conqueror-os/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/drsamonline/conqueror-os"></a>
+  <a href="https://github.com/drsamonline/conqueror-os/issues"><img alt="Issues" src="https://img.shields.io/github/issues/drsamonline/conqueror-os"></a>
+</p>
+
+---
+
 <!-- Badges and links are configured for github.com/drsamonline/conqueror-os -->
 
 [![CI](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml/badge.svg)](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml)
