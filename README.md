@@ -103,7 +103,7 @@ Conqueror OS is a self-contained personal application for building mental resili
 
 ## Quick start
 
-**Use it online (nothing to install):** **[drsamonline.github.io/conqueror-os](https://drsamonline.github.io/conqueror-os/play/)**
+**Use it online (nothing to install):** **[drsamonline.github.io/conqueror-os/play/](https://drsamonline.github.io/conqueror-os/play/)**
 
 **Or run the file yourself (no tooling required):**
 
