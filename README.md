@@ -19,6 +19,8 @@ Read · reflect · journal · track · review — no server, no account, no buil
   <a href="docs/FEATURES.md">Features</a>
   &nbsp;·&nbsp;
   <a href="CHANGELOG.md">Changelog</a>
+  &nbsp;·&nbsp;
+  <a href="https://drsamonline.github.io/">All projects</a>
 </p>
 
 <p align="center">
