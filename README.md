@@ -34,26 +34,6 @@ Read · reflect · journal · track · review — no server, no account, no buil
 
 ---
 
-<!-- Badges and links are configured for github.com/drsamonline/conqueror-os -->
-
-[![CI](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml/badge.svg)](https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml)
-[![Website](https://img.shields.io/badge/website-live%20demo-4B7A51.svg)](https://drsamonline.github.io/conqueror-os/play/)
-[![Release](https://img.shields.io/github/v/release/drsamonline/conqueror-os?label=version&color=C7742A)](https://github.com/drsamonline/conqueror-os/releases)
-[![License: MIT](https://img.shields.io/badge/code%20license-MIT-C7742A.svg)](#copyright-and-licensing)
-[![Content](https://img.shields.io/badge/content-%C2%A9%20all%20rights%20reserved-A8433A.svg)](#copyright-and-licensing)
-[![Stars](https://img.shields.io/github/stars/drsamonline/conqueror-os?style=flat&color=C7742A)](https://github.com/drsamonline/conqueror-os/stargazers)
-[![Last commit](https://img.shields.io/github/last-commit/drsamonline/conqueror-os)](https://github.com/drsamonline/conqueror-os/commits)
-[![Issues](https://img.shields.io/github/issues/drsamonline/conqueror-os)](https://github.com/drsamonline/conqueror-os/issues)
-[![Dependencies](https://img.shields.io/badge/dependencies-0-C7742A.svg)](#-zero-dependencies)
-[![Offline](https://img.shields.io/badge/offline--first-yes-4B7A51.svg)](#privacy)
-[![Single file](https://img.shields.io/badge/build-single%20file-C7742A.svg)](#-single-file-by-design)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-C7742A.svg)](https://www.conventionalcommits.org)
-
-
-**A private, offline resilience workspace that lives in a single HTML file.**
-Read · reflect · journal · track · review — no server, no account, no build step required to run it.
-
 Conqueror OS is a self-contained personal application for building mental resilience. It ships a short book (*The Resilience Protocol*), a Markdown journal, daily trackers, fillable worksheets, structured challenges, a spaced-repetition review queue, and local-only analytics — all wrapped in one file you can open from disk, email to yourself, or host anywhere.
 
 <p align="center">
