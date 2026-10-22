@@ -12,7 +12,7 @@ Read · reflect · journal · track · review — no server, no account, no buil
 <p align="center">
   <a href="https://drsamonline.github.io/conqueror-os/"><strong>Landing page</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://drsamonline.github.io/conqueror-os/play/"><strong>Live demo</strong></a>
+  <a href="https://drsamonline.github.io/conqueror-os/play/"><strong>Live demo</strong></a> &nbsp;·&nbsp; <a href="https://github.com/drsamonline/conqueror-os/releases/latest/download/conqueror-os-portable.exe"><strong>Download for Windows (.exe)</strong></a> &nbsp;·&nbsp; <a href="https://github.com/drsamonline/conqueror-os/releases/latest/download/conqueror-os.apk"><strong>Download for Android (.apk)</strong></a>
   &nbsp;·&nbsp;
   <a href="https://github.com/drsamonline/conqueror-os">Source</a>
   &nbsp;·&nbsp;
