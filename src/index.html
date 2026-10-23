@@ -908,7 +908,7 @@ function getChallenge(id){ return CONTENT.challenges.find(c=>c.id===id); }
    3. APPLICATION STATE
    ========================================================= */
 const DEFAULT_STATE = {
-  settings:{ theme:"light", fontSize:16, lineSpacing:"comfortable", readingWidth:"medium" },
+  settings:{ theme:"light", fontSize:16, lineSpacing:"comfortable", readingWidth:"medium", reviewDailyCap:0, reviewFirstInterval:1, reviewSecondInterval:6 },
   session:{ currentChapterId:null, scrollByChapter:{} },
   progress:{ /* chapterId: {status:'in-progress'|'complete', percent} */ },
   bookmarks:[], // {id, chapterId, label, createdAt}
@@ -3632,14 +3632,18 @@ function reviewItems(){
 }
 function dueReviews(){
   const today = todayKey();
-  return reviewItems().filter(it=>{ const r=state.review[it.key]; return !r || !r.due || r.due<=today; });
+  const due = reviewItems().filter(it=>{ const r=state.review[it.key]; return !r || !r.due || r.due<=today; });
+  const cap = Math.max(0, Number(state.settings.reviewDailyCap)||0);
+  return cap>0 ? due.slice(0, cap) : due;
 }
 function gradeReview(key, quality){ // quality 0..5
   const r = state.review[key] || {ease:2.5, interval:0, reps:0};
   if(quality<3){ r.reps=0; r.interval=0; }
   else {
     r.ease = Math.max(1.3, r.ease + (0.1 - (5-quality)*(0.08+(5-quality)*0.02)));
-    r.interval = r.reps===0 ? 1 : r.reps===1 ? 6 : Math.round(r.interval*r.ease);
+    const first = Math.max(1, Number(state.settings.reviewFirstInterval)||1);
+    const second = Math.max(1, Number(state.settings.reviewSecondInterval)||6);
+    r.interval = r.reps===0 ? first : r.reps===1 ? second : Math.round(r.interval*r.ease);
     r.reps++;
   }
   const due = new Date(); due.setDate(due.getDate() + Math.max(r.interval, quality<3?0:1));
@@ -4096,6 +4100,11 @@ renderSettings = function(){
       '<div class="toggle-row"><span>Daily reminder</span><div class="switch '+(state.settings.reminders?"on":"")+'" id="remind" role="switch" aria-checked="'+state.settings.reminders+'" tabindex="0"><div class="knob"></div></div></div>'+
       '<div class="toggle-row"><span>Reminder time</span><input type="time" id="remind-time" value="'+(state.settings.reminderTime||"20:00")+'"></div></div>'+
 
+    '<div class="settings-group"><h3>Review</h3>'+
+      '<div class="toggle-row"><span>Daily review cap (0 = no cap)</span><input type="number" min="0" max="200" value="'+state.settings.reviewDailyCap+'" id="review-cap" aria-label="Daily review cap"></div>'+
+      '<div class="toggle-row"><span>First interval (days)</span><input type="number" min="1" max="365" value="'+state.settings.reviewFirstInterval+'" id="review-first" aria-label="First review interval in days"></div>'+
+      '<div class="toggle-row"><span>Second interval (days)</span><input type="number" min="1" max="365" value="'+state.settings.reviewSecondInterval+'" id="review-second" aria-label="Second review interval in days"></div></div>'+
+
     '<div class="settings-group"><h3>Security</h3>'+
       '<div class="toggle-row"><span>App lock (PIN)</span>'+(state.settings.lock?'<button class="btn secondary" id="lock-remove">Remove PIN</button>':'<button class="btn secondary" id="lock-set">Set PIN</button>')+'</div></div>'+
 
@@ -4130,6 +4139,9 @@ renderSettings = function(){
   document.getElementById("font-slider").addEventListener("input", e=>{ state.settings.fontSize=Number(e.target.value); document.body.style.fontSize=state.settings.fontSize+"px"; persist(); });
   document.getElementById("spacing-select").addEventListener("change", e=>{ state.settings.lineSpacing=e.target.value; persist(); });
   document.getElementById("width-select").addEventListener("change", e=>{ state.settings.readingWidth=e.target.value; persist(); });
+  document.getElementById("review-cap").addEventListener("change", e=>{ state.settings.reviewDailyCap=Math.max(0,Number(e.target.value)||0); persist(); });
+  document.getElementById("review-first").addEventListener("change", e=>{ state.settings.reviewFirstInterval=Math.max(1,Number(e.target.value)||1); persist(); });
+  document.getElementById("review-second").addEventListener("change", e=>{ state.settings.reviewSecondInterval=Math.max(1,Number(e.target.value)||6); persist(); });
 
   function switchToggle(id, key, after){
     const el=document.getElementById(id);

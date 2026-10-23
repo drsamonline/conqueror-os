@@ -131,6 +131,33 @@ const route = h => { window.location.hash = h; window.dispatchEvent(new window.E
   click(document.querySelector('#insights-tabs button[data-tab="reports"]')); await sleep(15);
   ok('insights: report panel renders', !!$('#report-doc') && $('#report-doc').innerHTML.includes('Report'));
 
+  // ---- review scheduling options (roadmap: configurable intervals + daily cap) ----
+  route('#/settings'); await sleep(15);
+  ok('settings: review scheduling controls present',
+     !!$('#review-cap') && !!$('#review-first') && !!$('#review-second'));
+  const setNum = (sel, val) => { const el = $(sel); el.value = String(val); el.dispatchEvent(new window.Event('change', { bubbles: true })); };
+  setNum('#review-cap', 2);
+  setNum('#review-first', 3);
+  await sleep(15);
+  st = readState();
+  ok('settings: review cap + first interval persisted',
+     st.settings.reviewDailyCap === 2 && st.settings.reviewFirstInterval === 3,
+     JSON.stringify({ cap: st.settings.reviewDailyCap, first: st.settings.reviewFirstInterval }));
+
+  route('#/review'); await sleep(15);
+  const dueNow = Number(($('#main .stat-pill .n') || {}).textContent);
+  ok('review: daily cap limits the due queue', dueNow === 2, 'due=' + dueNow);
+
+  click($('#rev-show')); await sleep(15);
+  click(document.querySelector('#rev-grade [data-q="4"]')); await sleep(25);
+  st = readState();
+  const revKeys = Object.keys(st.review);
+  const d3 = new Date(); d3.setDate(d3.getDate() + 3);
+  const want3 = d3.getFullYear() + '-' + String(d3.getMonth() + 1).padStart(2, '0') + '-' + String(d3.getDate()).padStart(2, '0');
+  ok('review: first interval is configurable (3 days)',
+     revKeys.length === 1 && st.review[revKeys[0]].due === want3,
+     'due=' + ((st.review[revKeys[0]] || {}).due) + ' want=' + want3);
+
   const failed = results.filter(r => !r.pass);
   console.log('\n==== RESULTS ====');
   results.forEach(r => console.log(`${r.pass?'PASS':'FAIL'}  ${r.name}${r.extra?'  ['+r.extra+']':''}`));

@@ -8,11 +8,14 @@ The project's constraints shape the roadmap: **no backend, no accounts, no runti
 - Journal editing, tags, filters, dictation, attachments; custom trackers, correlations, heatmap, trend lines; custom challenges, pause/resume, reminders, share cards.
 - Undo on every delete; encrypted backups; JSON/Markdown/Word/CSV export; import merge/replace; PIN lock; CSP; command palette; onboarding; accessibility pass.
 
+## Shipped since 3.0
+
+- **Review scheduling options** — a configurable daily review cap and first/second review intervals (Settings → Review).
+
 ## Next
 
 - **Optional service worker** — installable/offline caching when the app is served over HTTP. *Limitation:* a service worker requires an origin, so it cannot be offered when the file is opened from disk; the app already works offline in that case.
 - **Localisation** — Hindi and Gujarati UI, plus right-to-left support where needed. Strings are currently inline; extraction is the first step.
-- **Review scheduling options** — configurable SRS intervals and a daily review cap.
 - **Reading goals** — a target number of minutes or chapters per week with gentle progress feedback.
 - **Print/exports** — richer "print chapter as worksheet" and "print journal range" layouts.
 
