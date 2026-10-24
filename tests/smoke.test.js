@@ -30,6 +30,14 @@ const click = el => el.dispatchEvent(new window.MouseEvent('click', { bubbles: t
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const results = [];
+
+// RETROFIT (kit-export-kit): the byte-length meter and the file save must go
+// through the INLINED export-kit, not a private copy of the same code.
+const exportCalls = [];
+const realToBytes = window.Export.toBytes, realSave = window.Export.save;
+window.Export.toBytes = function (d) { exportCalls.push(["toBytes", d]); return realToBytes(d); };
+window.Export.save = function () { exportCalls.push(["save"].concat([].slice.call(arguments))); return true; };
+
 const ok = (name, cond, extra='') => results.push({ name, pass: !!cond, extra });
 const readState = () => { window.dispatchEvent(new window.Event('beforeunload')); return JSON.parse(window.localStorage.getItem('conquerorOS.v1')); };
 const route = h => { window.location.hash = h; window.dispatchEvent(new window.Event('hashchange')); };
@@ -127,6 +135,26 @@ const route = h => { window.location.hash = h; window.dispatchEvent(new window.E
   // settings + report
   route('#/settings'); await sleep(15);
   ok('settings: export/csv/restore present', !!$('#ex-json') && !!$('#ex-csv') && !!$('#restore-file'));
+
+  // Driven through the UI, because the app's own functions are scoped, not global.
+  ok('retrofit: the storage meter measures bytes via the inlined export-kit', (function(){
+    exportCalls.length = 0;
+    route('#/settings');                     // re-render settings, which shows the storage meter
+    return exportCalls.some(c => c[0] === 'toBytes');
+  })());
+  ok('retrofit: the CSV export saves via the inlined export-kit', (function(){
+    exportCalls.length = 0;
+    click($('#ex-csv'));
+    return exportCalls.some(c => c[0] === 'save' && typeof c[1] === 'string' && /\.csv$/.test(c[1]));
+  })());
+
+  ok('retrofit: the app adds no createObjectURL of its own (the inlined kit owns it)', (function(){
+    const a = appjs.indexOf('export-kit — get bytes');
+    const b = appjs.indexOf('revoke: revoke', a);
+    if (a < 0 || b < 0) return false;
+    const outside = appjs.slice(0, a) + appjs.slice(b + 14);
+    return (outside.match(/createObjectURL/g) || []).length === 0;
+  })());
   route('#/insights'); await sleep(15);
   click(document.querySelector('#insights-tabs button[data-tab="reports"]')); await sleep(15);
   ok('insights: report panel renders', !!$('#report-doc') && $('#report-doc').innerHTML.includes('Report'));
