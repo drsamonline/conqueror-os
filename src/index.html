@@ -2938,7 +2938,9 @@ state = loadState();
 
 /* ---------- storage usage meter ---------- */
 function usageBytes(){
-  try{ return new Blob([localStorage.getItem(STORAGE_KEY)||""]).size; }catch(_){ return 0; }
+  /* RETROFIT: measure with the inlined export-kit's utf8 encoder instead of
+     allocating a Blob just to read its size. Same number, no Blob. */
+  try{ return Export.toBytes(localStorage.getItem(STORAGE_KEY)||"").length; }catch(_){ return 0; }
 }
 function usageText(){
   const b = usageBytes();
@@ -3848,7 +3850,9 @@ function shareChallengeCard(ch, st){
   x.font="30px Georgia, serif"; x.fillStyle="#5A5F66";
   x.fillText(n+" check-ins · "+Math.min(daysElapsed(st.startedAt), ch.lengthDays)+" of "+ch.lengthDays+" days", 60, 270);
   x.fillText("“"+ch.dailyAction.slice(0,70)+"”", 60, 340);
-  cvs.toBlob(b=>{ const url=URL.createObjectURL(b); const a=document.createElement("a"); a.href=url; a.download="conqueror-"+ch.id+".png"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); });
+  /* RETROFIT: reuse the delegating helper instead of a second private copy of
+     the Blob -> objectURL -> <a download> dance. */
+  cvs.toBlob(b=>downloadFile(b, "conqueror-"+ch.id+".png", "image/png"));
   showToast("Progress card saved.");
 }
 
