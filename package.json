@@ -1,7 +1,7 @@
 {
   "name": "conqueror-os",
   "version": "3.1.0",
-  "description": "A private, offline resilience workspace in a single HTML file — read, reflect, journal, track and review.",
+  "description": "A private, offline resilience workspace in a single HTML file \u2014 read, reflect, journal, track and review.",
   "keywords": [
     "offline",
     "single-file",
@@ -13,7 +13,7 @@
     "local-first",
     "spaced-repetition"
   ],
-  "license": "MIT",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "author": "Dr Sohil Momin",
   "private": true,
   "engines": {

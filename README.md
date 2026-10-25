@@ -245,11 +245,11 @@ This project contains two different kinds of work, licensed separately:
 
 | | What it covers | Licence |
 |---|---|---|
-| **Software** | The HTML, CSS and JavaScript that make up the application | [MIT](LICENSE) — free to use, modify and redistribute |
+| **Software** | The HTML, CSS and JavaScript that make up the application | [PolyForm Noncommercial](LICENSE) — free to use, modify and redistribute |
 | **Written content** | The books, chapter text, reflections, exercises, prompts, worksheet and challenge copy, and the application's written interface text | [Content licence](CONTENT-LICENSE.md) — **© all rights reserved** |
 
 The written content is an **original work of authorship**. It is protected by
-copyright and is **not** covered by the MIT licence: it may be read and used for
+copyright and is **not** covered by the PolyForm Noncommercial licence: it may be read and used for
 personal, non-commercial purposes, and short excerpts may be quoted with
 attribution, but it may not be reproduced, adapted, redistributed, used
 commercially, or used to train machine-learning models without written
