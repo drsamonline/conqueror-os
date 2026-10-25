@@ -1,3 +1,10 @@
+
+
+<!-- shot:start -->
+
+![Screenshot](docs/shot.png)
+
+<!-- shot:end -->
 <!-- Banner — landing page: https://drsamonline.github.io/conqueror-os/ · demo: https://drsamonline.github.io/conqueror-os/play/ -->
 
 <p align="center">
