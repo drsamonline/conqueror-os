@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   The written content (the books, chapter text, reflections, exercises, prompts
   and interface copy) is now explicitly identified as an original work of
   authorship, **Copyright © 2026 Dr Sohil Momin, all rights reserved**, and is
-  **not** covered by the MIT software licence.
+  **not** covered by the PolyForm Noncommercial software licence.
 - Copyright notices inside the application itself: a document header comment,
   `author` and `copyright` meta tags, a persistent line in the sidebar, and a
   statement in **Settings → About**.
