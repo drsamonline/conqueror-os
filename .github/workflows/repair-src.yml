@@ -1,0 +1,95 @@
+name: repair-src
+
+# One-shot repair tool. Committed to main only because workflow_dispatch needs the
+# workflow on the default branch; the PR it opens deletes it again.
+#
+# The batch that appends the shared export/restore/undo/keyboard block found the
+# last </body></html> in src/index.html, and in this app the last one is inside a
+# double-quoted string in exportWord(). The app script stopped parsing, so the page
+# never booted. This removes the block, proves the app with the repo's own suite,
+# rebuilds, and opens a PR from the commit BEFORE this tool.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Remove the misplaced block
+        run: python3 .github/repair/fix.py
+
+      - name: Prove it with the repo's own suite
+        run: |
+          set -euo pipefail
+          npm ci --no-audit --no-fund
+          npm test
+          npm run build
+          cp index.html docs/play/index.html
+          if git diff --quiet -- src/index.html; then
+            echo "::error::src/index.html did not change - nothing was repaired"
+            exit 1
+          fi
+
+      - name: Open the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "forge-bot"
+          git config user.email "forge-bot@users.noreply.github.com"
+          BR=fix/src-unterminated-string
+          git checkout -b "$BR" 86d102500b57b014aedaa2e7faef3fd9ade4f4b7
+          git add src/index.html index.html docs/play/index.html
+          printf '%s\n' 'fix: the app parses again - the shared block was appended inside a JS string' > /tmp/msg.txt
+          git commit -F /tmp/msg.txt
+          git push -u origin "$BR"
+          cat > /tmp/pr.md <<'PRBODY'
+          `src/index.html` did not parse, so **the app did not boot** - on `main`, in `index.html`, and in `docs/play/index.html`, which is what Pages serves.
+
+          ## What broke it
+
+          The batch that adds the shared export/restore/undo/keyboard block appends after the **last** `</body></html>` in the file. In this app the last one is inside a double-quoted string in `exportWord()`:
+
+          ```js
+            h += "</body></html>";
+          ```
+
+          The block was inserted between `h += "` and that closing line, so the string ran across about ninety lines and the whole script block became `SyntaxError: Invalid or unexpected token`. `npm test` could not load the app at all; CI has been red on main since 2026-10-25T13:33Z.
+
+          ## The fix
+
+          Restore the line the block split, then rebuild. Nothing is lost by not re-placing the block elsewhere: this app already has all four natively - Settings -> export (JSON, CSV, Word, encrypted backup), import with validation and merge/replace, undo on every delete, and `?` for the shortcuts overlay. The injected copy would have added a second floating toolbar and a second `/` and `?` key handler on top of the app's own.
+
+          ## Proof
+
+          - `npm test` **37/37** (on main it crashed with `SyntaxError` before a single assertion ran).
+          - `npm run build` is **byte-identical** to the last good `dist/conqueror-os.html` (224,901 bytes), so the source and the shipped artifact agree again.
+          - `src/index.html` after the fix differs from the pre-injection version (9209e6eb) **only** by the licence header from 86d10250 - checked with `diff -u`.
+          - CI (test-and-build on Node 18/20/22, and dist-in-sync) runs on this PR.
+
+          ## Also in this PR
+
+          It deletes the one-shot tool (`.github/repair/fix.py`, `.github/workflows/repair-src.yml`) that produced it. The tool had to live on the default branch because `workflow_dispatch` cannot start a workflow that is not there; merging this PR leaves main clean.
+
+          ## Still open, not in this PR
+
+          The injector itself is in the batch tooling, not here: it should refuse to write when the `</body></html>` it matched is inside a `<script>` or a string. Recorded in forge `PROGRESS.log`.
+          PRBODY
+          sed -i 's/^[[:space:]]*//' /tmp/pr.md
+          gh pr create --base main --head "$BR" \
+            --title "fix: restore src/index.html - the app did not parse, so it did not boot" \
+            --body-file /tmp/pr.md
