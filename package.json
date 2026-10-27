@@ -26,7 +26,7 @@
     "verify": "npm test && npm run build"
   },
   "devDependencies": {
-    "happy-dom": "^15.11.7",
+    "happy-dom": "^21.0.4",
     "html-minifier-terser": "^7.2.0"
   }
 }
