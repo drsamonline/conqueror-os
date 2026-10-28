@@ -33,7 +33,7 @@ Read · reflect · journal · track · review — no server, no account, no buil
 <p align="center">
   <a href="https://github.com/drsamonline/conqueror-os/releases"><img alt="Release" src="https://img.shields.io/github/v/release/drsamonline/conqueror-os?label=version&color=C7742A"></a>
   <a href="https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/drsamonline/conqueror-os/actions/workflows/ci.yml/badge.svg"></a>
-  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/code%20license-MIT-C7742A.svg"></a>
+  <a href="LICENSE"><img alt="License: PolyForm Noncommercial 1.0.0" src="https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-2e7d32"></a>
   <a href="https://github.com/drsamonline/conqueror-os/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/drsamonline/conqueror-os?color=C7742A"></a>
   <a href="https://github.com/drsamonline/conqueror-os/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/drsamonline/conqueror-os"></a>
   <a href="https://github.com/drsamonline/conqueror-os/issues"><img alt="Issues" src="https://img.shields.io/github/issues/drsamonline/conqueror-os"></a>
