@@ -18,6 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Optional service worker** — served over HTTP(S) (GitHub Pages, any static
+  host) the app is now installable and keeps working with the network off. The
+  worker caches the app shell and nothing else: cache-first for same-origin GETs,
+  every other request left to the browser, no sync, no push, no server. The cache
+  is named for the app version, so a release cannot serve a stale shell. It is
+  **skipped entirely on `file://`**, where a worker has no origin to run from and
+  the single file is already offline — so the single-file promise is unchanged.
+  The CSP gains `worker-src 'self'` and nothing else. Proved by `tests/sw.test.js`,
+  which runs the worker against a stub Cache API and fetch and drives its install,
+  activate and fetch handlers (22 assertions).
 - **Review scheduling options** — the spaced-repetition review queue is now
   configurable. **Settings → Review** gains a **daily review cap** (0 = no cap)
   and the **first** and **second** review intervals in days (previously

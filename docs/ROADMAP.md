@@ -14,7 +14,7 @@ The project's constraints shape the roadmap: **no backend, no accounts, no runti
 
 ## Next
 
-- **Optional service worker** — installable/offline caching when the app is served over HTTP. *Limitation:* a service worker requires an origin, so it cannot be offered when the file is opened from disk; the app already works offline in that case.
+- **Optional service worker** — shipped in 3.2.0. *Limitation, unchanged:* a service worker requires an origin, so it is skipped when the file is opened from disk; the app already works offline in that case.
 - **Localisation** — Hindi and Gujarati UI, plus right-to-left support where needed. Strings are currently inline; extraction is the first step.
 - **Reading goals** — a target number of minutes or chapters per week with gentle progress feedback.
 - **Print/exports** — richer "print chapter as worksheet" and "print journal range" layouts.
