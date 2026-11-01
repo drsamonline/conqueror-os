@@ -19,7 +19,7 @@
 <meta name="copyright" content="© 2026 Dr Sohil Momin. Software under the MIT Licence; written content all rights reserved.">
 <meta name="theme-color" content="#C7742A">
 <meta name="color-scheme" content="light dark">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23C7742A'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EC%3C/text%3E%3C/svg%3E">
 <title>Conqueror OS</title>
 <script>
@@ -4587,6 +4587,19 @@ function showLockScreen(){
 boot();
 
 
+})();
+</script>
+<script>
+/* Optional service worker — installable and offline-cached when the app is served
+   over HTTP. A worker needs an ORIGIN, so this is skipped entirely on file://,
+   where the single file is already offline by construction. Nothing here is
+   required for the app to work: a failed registration is not an error. */
+(function () {
+  if (!('serviceWorker' in navigator)) return;
+  if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () { /* not fatal */ });
+  });
 })();
 </script>
 </body>
