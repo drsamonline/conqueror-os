@@ -238,7 +238,7 @@ conqueror-os/
 
 ## Roadmap
 
-See [`docs/ROADMAP.md`](docs/ROADMAP.md). Near-term themes: an optional service worker for installable use (when served over HTTP), Hindi/Gujarati localisation, and optional end-to-end sync via an export file.
+See [`docs/ROADMAP.md`](docs/ROADMAP.md). Near-term themes: Hindi/Gujarati localisation, reading goals, and optional end-to-end sync via an export file. The optional service worker shipped in 3.2.0: served over HTTP the app caches its own shell and opens with the network off.
 
 ## Contributing
 

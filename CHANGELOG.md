@@ -16,6 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] — 2026-11-04
+
+### Added — optional service worker: offline over HTTP, unchanged from disk
+- `docs/play/sw.js` — cache-first for same-origin GETs and nothing else; cross-origin and non-GET requests are left to the browser. The cache is named for the release, so a new worker cannot serve the old shell; a navigation that misses the cache and finds no network still opens the cached shell.
+- `src/index.html` — registration guarded on `serviceWorker` presence *and* protocol, so opening the file from disk does nothing; a failed registration is caught. The CSP gains `worker-src 'self'` and nothing else: `default-src 'none'` and `connect-src 'none'` still hold.
+- `tests/sw.test.js` — 21 assertions that drive the worker's install / activate / fetch handlers against a stub Cache API and stub fetch, not a file-exists check. Wired into `npm test`.
+- Honest limit: installability is the browser's decision and Chrome also requires a manifest, which this app does not ship — the worker buys offline loading, not an install prompt.
+- Version 3.2.0; `npm run build` regenerated `dist/conqueror-os.html`, the Pages `index.html` and `docs/play/index.html`.
+
 ### Added
 
 - **Review scheduling options** — the spaced-repetition review queue is now
