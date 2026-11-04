@@ -11,10 +11,10 @@ The project's constraints shape the roadmap: **no backend, no accounts, no runti
 ## Shipped since 3.0
 
 - **Review scheduling options** — a configurable daily review cap and first/second review intervals (Settings → Review).
+- **Optional service worker (3.2.0)** — served over http(s) the app registers `sw.js`: cache-first for same-origin GETs, a cache named for the release so a new version cannot serve the old shell, nothing else intercepted. Opened from disk it is unchanged. *Still true:* installability is the browser's call and Chrome also wants a manifest, which this app does not ship.
 
 ## Next
 
-- **Optional service worker** — installable/offline caching when the app is served over HTTP. *Limitation:* a service worker requires an origin, so it cannot be offered when the file is opened from disk; the app already works offline in that case.
 - **Localisation** — Hindi and Gujarati UI, plus right-to-left support where needed. Strings are currently inline; extraction is the first step.
 - **Reading goals** — a target number of minutes or chapters per week with gentle progress feedback.
 - **Print/exports** — richer "print chapter as worksheet" and "print journal range" layouts.
