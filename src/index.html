@@ -1089,7 +1089,7 @@ function getChallenge(id){ return CONTENT.challenges.find(c=>c.id===id); }
    3. APPLICATION STATE
    ========================================================= */
 const DEFAULT_STATE = {
-  settings:{ theme:"light", fontSize:16, lineSpacing:"comfortable", readingWidth:"medium", reviewDailyCap:0, reviewFirstInterval:1, reviewSecondInterval:6 },
+  settings:{ theme:"light", fontSize:16, lineSpacing:"comfortable", readingWidth:"medium", reviewDailyCap:0, reviewFirstInterval:1, reviewSecondInterval:6, weeklyGoalMinutes:0 },
   session:{ currentChapterId:null, scrollByChapter:{} },
   progress:{ /* chapterId: {status:'in-progress'|'complete', percent} */ },
   bookmarks:[], // {id, chapterId, label, createdAt}
@@ -1192,6 +1192,33 @@ function last14Days(){
   }
   return arr;
 }
+/* The week runs Monday to Sunday, in LOCAL time, so a goal is measured against
+   the same days the ribbon above shows. */
+function weekKeys(d){
+  const x = d ? new Date(d.getTime()) : new Date();
+  x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); // Monday = 0
+  const keys = [];
+  for(let i=0;i<7;i++){ const day = new Date(x.getTime()); day.setDate(x.getDate()+i); keys.push(todayKey(day)); }
+  return keys;
+}
+/* Minutes read inside the current week, against the weekly goal. Pure: the log
+   is a parameter so the headless suite can hand it a week that straddles today. */
+function weeklyReading(log){
+  log = log || state.readingLog || {};
+  const goal = Math.max(0, Math.round(Number(state.settings.weeklyGoalMinutes)||0));
+  const keys = weekKeys();
+  const minutes = keys.reduce((s,k)=>s+(Number(log[k])||0),0);
+  const daysRead = keys.filter(k=>(Number(log[k])||0)>0).length;
+  return { goal:goal, minutes:minutes, daysRead:daysRead, keys:keys, start:keys[0], end:keys[6],
+           pct: goal>0 ? Math.min(100,(minutes/goal)*100) : 0 };
+}
+function goalMessage(w){
+  if(!w.goal) return "";
+  if(w.minutes >= w.goal) return "Goal met this week — well done.";
+  if(w.minutes > 0) return "On your way: " + Math.ceil(w.goal - w.minutes) + " min to go this week.";
+  return "No reading logged yet this week. A page counts.";
+}
+
 function computeStreak(){
   let streak = 0;
   let d = new Date();
@@ -3435,7 +3462,7 @@ renderDashboard = function(){
       '<div class="widget"><h3>Today\'s Mission</h3><div class="big">'+(dpToday.read&&dpToday.exercise?"Complete ✓":"In progress")+'</div>'+
         '<p>'+escapeHtml(inProgress.title)+'</p><a class="cta" href="#/reader/'+inProgress.id+'">Open daily practice →</a></div>'+
       '<div class="widget"><h3>Reading Progress</h3><div class="big">'+completedCount+' / '+CHAPTERS_ORDERED.length+'</div>'+
-        '<p>chapters completed · '+readMinutes+' min read today</p><a class="cta" href="#/library">View library →</a></div>'+
+        '<p>chapters completed · '+readMinutes+' min read today</p>'+weeklyGoalBlock()+'<a class="cta" href="#/library">View library →</a></div>'+
       '<div class="widget"><h3>Review Queue</h3><div class="big">'+due.length+'</div><p>cards due today</p><a class="cta" href="#/review">Start review →</a></div>'+
       activeCards+
     '</div>'+
@@ -3455,6 +3482,16 @@ renderDashboard = function(){
     '<p class="muted">Press <kbd>?</kbd> for keyboard shortcuts, <kbd>/</kbd> to search, <kbd>Ctrl/⌘ K</kbd> for the command palette.</p>'
   );
 };
+
+/* ---------- weekly reading goal (gentle, never a scold) ---------- */
+function weeklyGoalBlock(){
+  const w = weeklyReading();
+  if(!w.goal) return '<div class="weekly-goal" id="weekly-goal"><p class="muted" style="font-size:.78rem;margin:.3rem 0 0;">No weekly goal set. <a href="#/settings">Set one →</a></p></div>';
+  return '<div class="weekly-goal" id="weekly-goal">'+
+    '<div class="progress" style="margin:.45rem 0 .3rem;"><div style="width:'+w.pct.toFixed(1)+'%;background:var(--accent)"></div></div>'+
+    '<p style="font-size:.78rem;margin:0 0 .25rem;">'+Math.round(w.minutes)+' of '+w.goal+' min this week</p>'+
+    '<p class="muted" style="font-size:.75rem;margin:0;">'+escapeHtml(goalMessage(w))+'</p></div>';
+}
 
 function resumeBanner(){
   const last = state.session && state.session.currentChapterId;
@@ -4249,6 +4286,7 @@ renderInsights = function(){
         '<div class="stat-pill"><div class="n">'+avgMood+'</div><div class="l">Avg mood</div></div>'+
         '<div class="stat-pill"><div class="n">'+due+'</div><div class="l">Review due</div></div></div>'+
       '<div class="section-title">Reading time (14 days)</div>'+readingBars()+
+      '<p class="muted" id="week-goal-line">'+weekGoalLine()+'</p>'+
       '<div class="section-title">Mood trend (14 days)</div>'+renderTrackerChart("mood")+
       '<div class="section-title">Tracker adherence</div>'+allTrackerDefs().map(t=>{ const days=last14Days(); const logged=days.filter(k=>state.trackers.some(e=>e.trackerType===t.id&&e.date===k)).length;
         return '<div style="margin-bottom:.6rem;"><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.2rem;"><span>'+escapeHtml(t.label)+'</span><span>'+logged+'/14 days</span></div><div class="progress"><div style="width:'+((logged/14)*100)+'%;background:var(--accent)"></div></div></div>'; }).join("")+
@@ -4258,6 +4296,12 @@ renderInsights = function(){
   document.getElementById("insights-tabs").addEventListener("click", e=>{ const b=e.target.closest("button[data-tab]"); if(b){ insightsTab=b.dataset.tab; renderInsights(); } });
   if(insightsTab==="reports") wireReportPanel();
 };
+function weekGoalLine(){
+  const w = weeklyReading();
+  const span = fmtDate(w.start)+" – "+fmtDate(w.end);
+  if(!w.goal) return "This week ("+span+"): "+Math.round(w.minutes)+" min read. No weekly goal set — add one in Settings.";
+  return "This week ("+span+"): "+Math.round(w.minutes)+" of "+w.goal+" min, over "+w.daysRead+(w.daysRead===1?" day":" days")+". "+goalMessage(w);
+}
 function readingBars(){
   const days=last14Days(); const max=Math.max(1,...days.map(k=>(state.readingLog||{})[k]||0));
   return '<div class="bar-chart">'+days.map(k=>{ const v=(state.readingLog||{})[k]||0; return '<div class="bar '+(v/max>0.6?"hi":"")+'" style="height:'+Math.max(2,(v/max)*100)+'%" title="'+fmtDate(k)+': '+v+' min"></div>'; }).join("")+'</div>'+
@@ -4280,7 +4324,8 @@ renderSettings = function(){
     '<div class="settings-group"><h3>Practice</h3>'+
       '<div class="toggle-row"><span>Count journaling toward the daily streak</span><div class="switch '+(state.settings.journalStreak?"on":"")+'" id="jstreak" role="switch" aria-checked="'+state.settings.journalStreak+'" tabindex="0"><div class="knob"></div></div></div>'+
       '<div class="toggle-row"><span>Daily reminder</span><div class="switch '+(state.settings.reminders?"on":"")+'" id="remind" role="switch" aria-checked="'+state.settings.reminders+'" tabindex="0"><div class="knob"></div></div></div>'+
-      '<div class="toggle-row"><span>Reminder time</span><input type="time" id="remind-time" value="'+(state.settings.reminderTime||"20:00")+'"></div></div>'+
+      '<div class="toggle-row"><span>Reminder time</span><input type="time" id="remind-time" value="'+(state.settings.reminderTime||"20:00")+'"></div>'+
+      '<div class="toggle-row"><span>Weekly reading goal in minutes (0 = off)</span><input type="number" min="0" max="2000" step="5" value="'+(state.settings.weeklyGoalMinutes||0)+'" id="reading-goal" aria-label="Weekly reading goal in minutes"></div></div>'+
 
     '<div class="settings-group"><h3>Review</h3>'+
       '<div class="toggle-row"><span>Daily review cap (0 = no cap)</span><input type="number" min="0" max="200" value="'+state.settings.reviewDailyCap+'" id="review-cap" aria-label="Daily review cap"></div>'+
@@ -4324,6 +4369,7 @@ renderSettings = function(){
   document.getElementById("review-cap").addEventListener("change", e=>{ state.settings.reviewDailyCap=Math.max(0,Number(e.target.value)||0); persist(); });
   document.getElementById("review-first").addEventListener("change", e=>{ state.settings.reviewFirstInterval=Math.max(1,Number(e.target.value)||1); persist(); });
   document.getElementById("review-second").addEventListener("change", e=>{ state.settings.reviewSecondInterval=Math.max(1,Number(e.target.value)||6); persist(); });
+  document.getElementById("reading-goal").addEventListener("change", e=>{ state.settings.weeklyGoalMinutes=Math.max(0,Math.round(Number(e.target.value)||0)); persist(); });
 
   function switchToggle(id, key, after){
     const el=document.getElementById(id);

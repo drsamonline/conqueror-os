@@ -23,6 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and the **first** and **second** review intervals in days (previously
   hard-coded to 1 and 6). The queue honours the cap, and grading schedules the
   next review from your intervals. Covered by the headless smoke suite.
+- **Weekly reading goal** — **Settings → Practice** gains a weekly reading goal in
+  minutes (0 = off). The dashboard's reading widget shows the minutes read this
+  week against it, a progress bar and one plain sentence ("On your way: 40 min to
+  go this week.", "Goal met this week — well done."), and Insights states the week
+  it is measuring. The week is **Monday to Sunday in local time**, summed from the
+  reading time the app already records per day, so nothing new is tracked and no
+  existing save changes shape — an unset goal simply invites one. Proven by six
+  headless checks, including one that seeds 999 minutes thirty days ago and
+  requires that it is **not** counted.
 
 ## [3.0.1] — 2026-10-20
 

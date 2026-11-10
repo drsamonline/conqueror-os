@@ -11,12 +11,12 @@ The project's constraints shape the roadmap: **no backend, no accounts, no runti
 ## Shipped since 3.0
 
 - **Review scheduling options** — a configurable daily review cap and first/second review intervals (Settings → Review).
+- **Weekly reading goal** — a target in minutes per week (Settings → Practice), measured Monday to Sunday from the reading time the app already records. The dashboard widget shows the minutes, a bar, and one plain sentence; Insights adds the week against the target. 0 turns it off, and an unset goal is an invitation, never a nag.
 
 ## Next
 
 - **Optional service worker** — installable/offline caching when the app is served over HTTP. *Limitation:* a service worker requires an origin, so it cannot be offered when the file is opened from disk; the app already works offline in that case.
 - **Localisation** — Hindi and Gujarati UI, plus right-to-left support where needed. Strings are currently inline; extraction is the first step.
-- **Reading goals** — a target number of minutes or chapters per week with gentle progress feedback.
 - **Print/exports** — richer "print chapter as worksheet" and "print journal range" layouts.
 
 ## Later / under consideration
