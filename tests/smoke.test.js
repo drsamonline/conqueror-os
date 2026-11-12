@@ -186,6 +186,48 @@ const route = h => { window.location.hash = h; window.dispatchEvent(new window.E
      revKeys.length === 1 && st.review[revKeys[0]].due === want3,
      'due=' + ((st.review[revKeys[0]] || {}).due) + ' want=' + want3);
 
+  // ---- weekly reading goal (roadmap: a target with gentle progress feedback) ----
+  // A goal is a WEEK, so the only honest proof seeds a log that straddles one:
+  // 30 min today (always inside this week) and 999 min thirty days ago, which
+  // must not be counted. The app is booted fresh on that saved state, so the
+  // assertion is about what a returning reader sees, not about a private call.
+  route('#/dashboard'); await sleep(20);
+  ok('goal: with no goal set the widget invites one',
+     !!$('#weekly-goal') && $('#weekly-goal').textContent.includes('No weekly goal set'),
+     ($('#weekly-goal') || {}).textContent);
+
+  route('#/settings'); await sleep(15);
+  ok('settings: weekly reading goal control present', !!$('#reading-goal'));
+  setNum('#reading-goal', 90);
+  await sleep(20);
+  st = readState();
+  ok('settings: weekly reading goal persisted', st.settings.weeklyGoalMinutes === 90,
+     'got=' + st.settings.weeklyGoalMinutes);
+
+  const keyAgo = n => { const d = new Date(); d.setDate(d.getDate() - n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+  const seed = readState();
+  seed.readingLog = {}; seed.readingLog[keyAgo(0)] = 30; seed.readingLog[keyAgo(30)] = 999;
+  const w2 = new Window({ url: 'https://local.test/#/dashboard' });
+  w2.print = () => {}; w2.confirm = () => true;
+  w2.localStorage.setItem('conquerorOS.v1', JSON.stringify(seed));
+  w2.document.write(htmlNoScripts);
+  w2.eval(appjs);
+  await sleep(60);
+  const goalText = (w2.document.querySelector('#weekly-goal') || {}).textContent || '';
+  ok('goal: the dashboard shows minutes against the target', goalText.includes('of 90 min this week'), goalText);
+  ok('goal: only this week is counted (30, not 1029)', goalText.includes('30 of 90'), goalText);
+  ok('goal: feedback is gentle and says what is left', goalText.includes('60 min to go this week'), goalText);
+
+  const w3 = new Window({ url: 'https://local.test/#/insights' });
+  w3.print = () => {}; w3.confirm = () => true;
+  const metState = JSON.parse(JSON.stringify(seed)); metState.readingLog[keyAgo(0)] = 120;
+  w3.localStorage.setItem('conquerorOS.v1', JSON.stringify(metState));
+  w3.document.write(htmlNoScripts);
+  w3.eval(appjs);
+  await sleep(60);
+  const weekLine = (w3.document.querySelector('#week-goal-line') || {}).textContent || '';
+  ok('goal: a met goal says so, without a scold', weekLine.includes('120 of 90') && weekLine.includes('Goal met'), weekLine);
+
   const failed = results.filter(r => !r.pass);
   console.log('\n==== RESULTS ====');
   results.forEach(r => console.log(`${r.pass?'PASS':'FAIL'}  ${r.name}${r.extra?'  ['+r.extra+']':''}`));
