@@ -55,7 +55,7 @@ jobs:
           if-no-files-found: error
 
   dist-in-sync:
-    name: dist/ is up to date
+    name: the demo is the app
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -66,10 +66,10 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run build
-      - name: Fail if build output differs from committed build
+      - name: Fail if the committed demo is not the current build
         run: |
-          if ! git diff --quiet -- dist/conqueror-os.html index.html; then
-            echo "::error::dist/conqueror-os.html and/or index.html are out of date. Run 'npm run build' and commit the result."
-            git diff --stat -- dist/conqueror-os.html index.html
+          if ! git diff --quiet -- docs/play/index.html; then
+            echo "::error::docs/play/index.html is not the current build. Run 'npm run build' and commit the result."
+            git diff --stat -- docs/play/index.html
             exit 1
           fi
