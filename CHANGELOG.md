@@ -1,5 +1,36 @@
 # Changelog
 
+## 3.2.0 — 2026-11-13
+
+### Added — optional service worker: offline over HTTP, unchanged from disk
+
+- `src/index.html` now registers `sw.js` when the app is **served** over http(s) and does
+  nothing when it is opened from disk — a worker needs an origin, and the single file is
+  already offline there. The registration is guarded on both `serviceWorker` support and
+  the protocol, and a failed registration is caught: nothing in the app depends on it.
+- The CSP gains `worker-src 'self'` and nothing else. `default-src 'none'` and
+  `connect-src 'none'` still hold, so the page still cannot reach the network.
+
+### Fixed — the suite that proves it was red on `main` and nothing ran it
+
+- `tests/sw.test.js` already existed and already drove the real `docs/play/sw.js` against a
+  stub Cache API — but three of its 21 assertions read `src/index.html` and were failing,
+  because the worker landed and the page half of the change did not. The page half was left
+  to a one-shot workflow (`.github/workflows/sw-3.2.0.yml`) that was never dispatched.
+  It is applied here, and that workflow is deleted in the same commit.
+- `npm test` ran only the smoke suite, which is why CI stayed green over a red one. It now
+  runs `smoke` **and** `sw`; `npm run test:sw` runs the worker suite alone.
+- `package-lock.json` still said `3.1.0` while `package.json` said `3.1.1`, and it also
+  still carried the pre-PolyForm `"license": "MIT"`. Both now agree with the release.
+
+### Changed — the public demo is now provably the app
+
+- `scripts/build.js` writes `docs/play/index.html` instead of a root `index.html`, and CI
+  fails when the committed demo differs from a fresh build. The previous gate checked
+  `dist/conqueror-os.html` and `index.html`, neither of which is committed, so it passed
+  vacuously — and `docs/play/index.html` had drifted 1,345 bytes behind `src/index.html`,
+  which is exactly the "demo running older code" the 3.1.1 entry claims a build prevents.
+
 ## 3.1.1 — 2026-10-25
 
 - **Licence: PolyForm Noncommercial 1.0.0.** Every repository now carries the canonical text
