@@ -523,6 +523,12 @@ nav.primary a[aria-current="page"]{font-weight:600}
 .widget{border-radius:10px}
 @media print{ .diagram{break-inside:avoid} }
 
+
+/* ---- a11y: the same page, the copy the build reads ------------------------
+   #c7742a takes white at 3.52:1. Moved to the landing page's #a35f08, where
+   white reads 5.4:1. */
+a.btn:not(.ghost),.btn:not(.ghost){background:#a35f08!important;color:#ffffff!important}
+[data-theme="dark"] a.btn.ghost{color:#f0e6d8!important}
 </style>
 </head>
 <body>

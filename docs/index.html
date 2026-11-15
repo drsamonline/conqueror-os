@@ -135,6 +135,15 @@
   footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
   footer a { color: var(--mut); } footer a:hover { color: var(--amber); }
   .stamp { margin-left: auto; }
+
+/* ---- a11y: the amber carries white, the ghost carries the page's ink ------
+   #a35f08 takes a near-black label at 3.7:1 and a white one at 5.4:1. The ghost
+   button inherited the dark ink onto a dark page: 1.01:1. */
+a.btn:not(.ghost),.btn:not(.ghost){color:#ffffff!important}
+[data-theme="dark"] a.btn.ghost{color:#f0e6d8!important}   /* 1.01 -> 15.2 on #101218 */
+
+/* the dark theme's amber is lighter (#f59e0b); white on it is 2.15:1 */
+[data-theme="dark"] a.btn:not(.ghost),[data-theme="dark"] .btn:not(.ghost){color:#3a2000!important}
 </style>
 </head>
 <body>
