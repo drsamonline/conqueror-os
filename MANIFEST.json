@@ -15,10 +15,10 @@
       "at": "2026-11-04T20:03:49Z"
     },
     "docs/play/index.html": {
-      "sha": "a1d974f32d696acd16371ed5a5129785c210f4bf",
-      "producer": "bootstrap@2026-11-04",
+      "sha": "e6a6802a65cf9aace912113fb3fe86b1eb9d9d0d",
+      "producer": "forge-health-2026-11-15",
       "class": "generated",
-      "at": "2026-11-04T20:03:49Z"
+      "at": "2026-11-15T12:56:04Z"
     },
     ".github/workflows/build-apps.yml": {
       "sha": "03ee5a1ee1824e50d998bf7defca369f4c2633b2",
@@ -27,5 +27,5 @@
       "at": "2026-11-10T15:12:00Z"
     }
   },
-  "updated": "2026-11-10T15:12:00Z"
+  "updated": "2026-11-15T12:56:04Z"
 }
