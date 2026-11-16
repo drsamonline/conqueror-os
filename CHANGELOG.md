@@ -1,5 +1,29 @@
 # Changelog
 
+## 3.3.0 — 2026-11-16
+
+### Added — a weekly reading goal, shown gently on Today
+
+- **Settings → Reading** takes a weekly target in minutes (`0` = off, the default). It
+  persists with the rest of the settings, so it survives a reload and a restore.
+- **Today** shows the week's progress under the Reading Progress widget: `This week:
+  65 / 120 min`, a thin progress bar, and one sentence. The sentence is chosen to be
+  kind rather than scolding — *"Goal reached — anything more this week is a bonus."*,
+  *"55 min to go this week. Short sessions count the same as long ones."*, or, on a
+  quiet week, *"Nothing logged yet this week. A few minutes with one chapter counts."*
+  There is no streak pressure and nothing is lost by missing it.
+- The total is the **week's**, Monday to Sunday, from the reading log the dwell tracker
+  already writes — not today's minutes, which is what the widget showed before. Minutes
+  from outside the current week are excluded, which is the one thing `tests/smoke.test.js`
+  now proves directly: it seeds 40 min today, 25 min on another day of this week and
+  999 min 45 days ago, and requires `65`, not `1064`.
+
+### Changed — the goal is a target, not a debt
+
+- Deliberately **no** failure state, no badge, no "missed goal" count. This is a
+  resilience app; a reading target that punishes a hard week works against the thing the
+  app is for.
+
 ## 3.2.0 — 2026-11-13
 
 ### Added — optional service worker: offline over HTTP, unchanged from disk

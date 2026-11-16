@@ -1198,6 +1198,37 @@ function last14Days(){
   }
   return arr;
 }
+/* ---------- weekly reading goal (roadmap: "Reading goals") ---------- */
+function currentWeekKeys(){
+  const arr=[]; const now=new Date();
+  const dow=(now.getDay()+6)%7;               // Monday = 0, so the week is Mon..Sun
+  for(let i=0;i<7;i++){ const d=new Date(now); d.setDate(now.getDate()-dow+i); arr.push(todayKey(d)); }
+  return arr;
+}
+function weeklyReadingMinutes(){
+  const log = state.readingLog || {};
+  return currentWeekKeys().reduce((s,k)=>s+(Number(log[k])||0),0);
+}
+function readingGoalMinutes(){ return Math.max(0, Math.round(Number(state.settings.readingGoal)||0)); }
+/* Gentle by design: a target to lean toward, never a debt. No streak pressure,
+   no "missed", nothing to lose by a quiet week. */
+function readingGoalView(){
+  const goal = readingGoalMinutes();
+  if(!goal) return "";
+  const done = weeklyReadingMinutes();
+  const pct = Math.min(100, Math.round(done/goal*100));
+  const left = Math.max(0, goal-done);
+  const msg = left===0
+    ? "Goal reached — anything more this week is a bonus."
+    : done===0
+      ? "Nothing logged yet this week. A few minutes with one chapter counts."
+      : left+" min to go this week. Short sessions count the same as long ones.";
+  return '<div class="reading-goal" id="reading-goal" data-done="'+done+'" data-goal="'+goal+'">'+
+    '<div style="display:flex;justify-content:space-between;font-size:.82rem;margin:.1rem 0 .3rem;"><span>This week: '+done+' / '+goal+' min</span><span>'+pct+'%</span></div>'+
+    '<div style="height:6px;background:var(--bg-sunken);border-radius:3px;overflow:hidden;" role="progressbar" aria-valuemin="0" aria-valuemax="'+goal+'" aria-valuenow="'+done+'" aria-label="Weekly reading goal">'+
+    '<div style="height:100%;width:'+pct+'%;background:var(--accent);"></div></div>'+
+    '<p style="margin:.35rem 0 0;font-size:.78rem;color:var(--text-dim);">'+msg+'</p></div>';
+}
 function computeStreak(){
   let streak = 0;
   let d = new Date();
@@ -2914,6 +2945,7 @@ document.getElementById("theme-toggle").addEventListener("click", ()=>{
 Object.assign(DEFAULT_STATE.settings, {
   theme:"light", autoTheme:false, fontFamily:"serif", fontWeight:"normal",
   journalStreak:false, reminders:false, reminderTime:"20:00",
+  readingGoal:0, /* minutes per week; 0 = off */
   onboardingDone:false, lock:null
 });
 Object.assign(DEFAULT_STATE, {
@@ -3441,7 +3473,7 @@ renderDashboard = function(){
       '<div class="widget"><h3>Today\'s Mission</h3><div class="big">'+(dpToday.read&&dpToday.exercise?"Complete ✓":"In progress")+'</div>'+
         '<p>'+escapeHtml(inProgress.title)+'</p><a class="cta" href="#/reader/'+inProgress.id+'">Open daily practice →</a></div>'+
       '<div class="widget"><h3>Reading Progress</h3><div class="big">'+completedCount+' / '+CHAPTERS_ORDERED.length+'</div>'+
-        '<p>chapters completed · '+readMinutes+' min read today</p><a class="cta" href="#/library">View library →</a></div>'+
+        '<p>chapters completed · '+readMinutes+' min read today</p>'+readingGoalView()+'<a class="cta" href="#/library">View library →</a></div>'+
       '<div class="widget"><h3>Review Queue</h3><div class="big">'+due.length+'</div><p>cards due today</p><a class="cta" href="#/review">Start review →</a></div>'+
       activeCards+
     '</div>'+
@@ -4293,6 +4325,10 @@ renderSettings = function(){
       '<div class="toggle-row"><span>First interval (days)</span><input type="number" min="1" max="365" value="'+state.settings.reviewFirstInterval+'" id="review-first" aria-label="First review interval in days"></div>'+
       '<div class="toggle-row"><span>Second interval (days)</span><input type="number" min="1" max="365" value="'+state.settings.reviewSecondInterval+'" id="review-second" aria-label="Second review interval in days"></div></div>'+
 
+    '<div class="settings-group"><h3>Reading</h3>'+
+      '<div class="toggle-row"><span>Weekly reading goal in minutes (0 = off)</span><input type="number" min="0" max="2000" step="5" value="'+readingGoalMinutes()+'" id="reading-goal-input" aria-label="Weekly reading goal in minutes"></div>'+
+      '<p class="muted" style="margin:.2rem 0 0;font-size:.8rem;">A gentle target, shown on Today. It never nags, and nothing is lost by missing it.</p></div>'+
+
     '<div class="settings-group"><h3>Security</h3>'+
       '<div class="toggle-row"><span>App lock (PIN)</span>'+(state.settings.lock?'<button class="btn secondary" id="lock-remove">Remove PIN</button>':'<button class="btn secondary" id="lock-set">Set PIN</button>')+'</div></div>'+
 
@@ -4330,6 +4366,7 @@ renderSettings = function(){
   document.getElementById("review-cap").addEventListener("change", e=>{ state.settings.reviewDailyCap=Math.max(0,Number(e.target.value)||0); persist(); });
   document.getElementById("review-first").addEventListener("change", e=>{ state.settings.reviewFirstInterval=Math.max(1,Number(e.target.value)||1); persist(); });
   document.getElementById("review-second").addEventListener("change", e=>{ state.settings.reviewSecondInterval=Math.max(1,Number(e.target.value)||6); persist(); });
+  document.getElementById("reading-goal-input").addEventListener("change", e=>{ state.settings.readingGoal=Math.max(0,Math.round(Number(e.target.value)||0)); persist(); });
 
   function switchToggle(id, key, after){
     const el=document.getElementById(id);

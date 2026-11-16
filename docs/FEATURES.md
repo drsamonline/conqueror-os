@@ -7,6 +7,8 @@ A complete reference to what Conqueror OS does. Everything works offline with no
 - Current streak ribbon (last 14 days) and a "continue reading" action.
 - **Resume where you left off** banner for a partially-read chapter.
 - Widgets: today's mission, reading progress, review queue, and every active challenge.
+- **Weekly reading goal** (optional, set in Settings): the week's minutes against the target with a
+  progress bar and one gentle sentence — no streak pressure, no failure state.
 - The rotating **daily prompt**, an **"on this day"** resurfacing of past journal entries, and favourite quotes.
 
 ## Library
@@ -81,6 +83,7 @@ A complete reference to what Conqueror OS does. Everything works offline with no
 ## Settings
 
 - **Appearance:** theme (light, dark, sepia, high-contrast, OLED, auto), reading font (serif / sans / dyslexia-friendly), font weight and size, line spacing, reading width.
+- **Reading:** a weekly reading goal in minutes (0 = off), surfaced on Today.
 - **Practice:** count journaling toward the streak; daily reminder and time.
 - **Security:** PIN app lock.
 - **Data & backup:** storage usage meter; export as JSON / encrypted / Markdown / Word / CSV; import (merge or replace) with validation; print to PDF.

@@ -23,6 +23,27 @@ const { document } = window;
 // them (behaviour varies between happy-dom versions), then evaluate the app once.
 const htmlNoScripts = html.replace(/<script>[\s\S]*?<\/script>/g, '');
 document.write(htmlNoScripts);
+
+// READING-GOAL FIXTURE. The week's minutes are seeded BEFORE boot because the app's
+// own functions are scoped (not global) and its reading log is only written by the
+// reader's dwell timer, which needs 3 s of wall clock. Dates are computed here,
+// independently of the app's own week helper, so the assertion is not self-referential.
+const keyOf = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const bootNow = new Date();
+const bootDow = (bootNow.getDay() + 6) % 7;                 // Monday = 0
+const bootWeek = Array.from({ length: 7 }, (_, i) => {
+  const d = new Date(bootNow); d.setDate(bootNow.getDate() - bootDow + i); return keyOf(d);
+});
+const bootToday = keyOf(bootNow);
+const seedLog = {};
+seedLog[bootToday] = 40;
+const anotherWeekDay = bootWeek.find(k => k !== bootToday);
+if (anotherWeekDay) seedLog[anotherWeekDay] = 25;           // inside this week -> counts
+const longAgo = new Date(bootNow); longAgo.setDate(bootNow.getDate() - 45);
+seedLog[keyOf(longAgo)] = 999;                              // outside this week -> must NOT count
+const EXPECT_WEEK_MINUTES = 40 + (anotherWeekDay ? 25 : 0);
+window.localStorage.setItem('conquerorOS.v1', JSON.stringify({ readingLog: seedLog }));
+
 window.eval(appjs);
 
 const $ = sel => document.querySelector(sel);
@@ -185,6 +206,37 @@ const route = h => { window.location.hash = h; window.dispatchEvent(new window.E
   ok('review: first interval is configurable (3 days)',
      revKeys.length === 1 && st.review[revKeys[0]].due === want3,
      'due=' + ((st.review[revKeys[0]] || {}).due) + ' want=' + want3);
+
+  // ---- reading goals (roadmap "Next": a weekly target with gentle progress feedback) ----
+  route('#/dashboard'); await sleep(15);
+  ok('reading goal: off by default, so Today shows no goal block', !$('#reading-goal'));
+
+  route('#/settings'); await sleep(15);
+  ok('reading goal: the control exists in Settings', !!$('#reading-goal-input'));
+  setNum('#reading-goal-input', 120); await sleep(15);
+  st = readState();
+  ok('reading goal: the target persists', st.settings.readingGoal === 120, 'goal=' + st.settings.readingGoal);
+
+  route('#/dashboard'); await sleep(15);
+  const goalEl = $('#reading-goal');
+  ok('reading goal: Today shows the WEEK total, not today\'s',
+     !!goalEl && goalEl.textContent.includes(EXPECT_WEEK_MINUTES + ' / 120'),
+     goalEl ? goalEl.textContent.replace(/\s+/g, ' ').trim().slice(0, 90) : 'no #reading-goal');
+  ok('reading goal: minutes from outside this week are not counted',
+     !!goalEl && Number(goalEl.getAttribute('data-done')) === EXPECT_WEEK_MINUTES,
+     'done=' + (goalEl && goalEl.getAttribute('data-done')) + ' want=' + EXPECT_WEEK_MINUTES);
+
+  route('#/settings'); await sleep(15);
+  setNum('#reading-goal-input', 60); await sleep(15);
+  route('#/dashboard'); await sleep(15);
+  ok('reading goal: a met goal says so, and says nothing is owed',
+     !!$('#reading-goal') && /Goal reached/.test($('#reading-goal').textContent),
+     $('#reading-goal') ? $('#reading-goal').textContent.replace(/\s+/g, ' ').trim().slice(0, 90) : 'missing');
+
+  route('#/settings'); await sleep(15);
+  setNum('#reading-goal-input', 0); await sleep(15);
+  route('#/dashboard'); await sleep(15);
+  ok('reading goal: 0 turns it off again', !$('#reading-goal'));
 
   const failed = results.filter(r => !r.pass);
   console.log('\n==== RESULTS ====');
