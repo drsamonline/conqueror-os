@@ -25,7 +25,19 @@
       "producer": "audit-2026-11-10",
       "class": "canonical",
       "at": "2026-11-10T15:12:00Z"
+    },
+    "VERSION": {
+      "sha": "8acdd82b765e8e0b8cd8787f7f18c7fe2ec52493",
+      "producer": "app-builder/.github/workflows/build.yml version job",
+      "class": "generated",
+      "at": "2026-11-16T12:44:26Z"
+    },
+    "CHANGELOG.md": {
+      "sha": "5edfdf5485a70beee38baf64ac9ba326489bcd04",
+      "producer": "app-builder/.github/workflows/build.yml version job",
+      "class": "generated",
+      "at": "2026-11-16T12:44:26Z"
     }
   },
-  "updated": "2026-11-10T15:12:00Z"
+  "updated": "2026-11-16T12:44:26Z"
 }
