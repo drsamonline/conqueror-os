@@ -37,6 +37,12 @@ jobs:
       - name: Install dev dependencies
         run: npm ci --no-audit --no-fund
 
+      - name: Check the string catalogues against the source
+        # The English lives in the markup; the catalogues are generated from it.
+        # This fails when either side drifts — including when a translation is
+        # deleted, copied from English, or the inline block is hand-edited.
+        run: python3 tools/extract-strings.py --check
+
       - name: Run smoke suite
         run: npm test
 

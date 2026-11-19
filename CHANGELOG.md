@@ -1,5 +1,44 @@
 # Changelog
 
+## 3.4.0 — 2026-11-19
+
+### Added — the interface speaks Hindi and Gujarati
+
+- **The shell is localised**: the sidebar brand subtitle, the "Recent" heading and its
+  empty state, the search hint and placeholder, the skip link, and every ARIA label
+  (primary navigation, breadcrumb, menu, theme, search, language). A language selector
+  sits under the sidebar; the choice persists with the rest of the settings and
+  `<html lang>` follows it.
+- **`tools/extract-strings.py`** — the extraction step the roadmap named. The English is
+  read **out of the source** (`data-i18n`, `data-i18n-attr`, the nav table, and
+  `t("key","English")` call sites) and the catalogues are generated from it, so a
+  string cannot be translated in one place and stale in another. `--check` fails on a
+  declared key with no entry, an entry nothing declares, a language missing a key, a
+  value identical to the English (the failure mode where a language ships and changes
+  nothing), an empty value, and an inline block that is stale or hand-edited.
+- **`src/locales/{en,hi,gu}.json`** and the `<script id="i18n-data">` runtime catalogue
+  that the single file actually carries.
+- **`tests/i18n.test.js`** — 44 assertions driving the real app: the catalogue is
+  complete in both directions, switching language changes the navigation, sidebar,
+  search hint, placeholder, breadcrumb and ARIA labels, `<html lang>` follows, the
+  choice survives a reload, an unknown language is refused without losing the current
+  one, and a key missing from Hindi falls back to English and then to the caller's own
+  literal rather than to a raw key. Mutation-checked four ways (drop the literal
+  fallback; stop re-applying on switch; stop translating attributes; accept any
+  language) — each turns the suite red.
+
+### Fixed
+
+- The language selector did not follow a programmatic change of language: `setLang()`
+  updated the app and the storage but left the `<select>` showing the previous value.
+  Found by the new suite, not by reading the code.
+
+### Changed
+
+- `npm test` now runs the i18n suite too, and CI runs
+  `python3 tools/extract-strings.py --check` before it.
+- The README's testing note said the smoke suite had "30 checks"; it has 44.
+
 ## 0.0.1 — 2026-11-16
 
 - # Reading goals **Behaviour change:** Today's Reading Progress widget gains an optional weekly target, and Settings gains the control for it. - `state.settings.readingGoal` — minutes per week, `0` = off (the default, so no existing save changes appearance until the owner sets one). - `currentWeekKeys()` / `weeklyReadingMinutes()` / `readingGoalMinutes()` / `readingGoalView()` in `src/index.html`. Monday-start week, from `state.readingLog`. - `tests/smoke.test.js` — 7 assertions: off by default, control present, target persists, week total (not today's), out-of-week minutes excluded, met goal is not an error state, `0` turns it off again. Mutation-checked: summing the whole log instead of the week turns 2 of them red (`65` becomes `1064`).

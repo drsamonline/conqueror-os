@@ -15,10 +15,10 @@
       "at": "2026-11-04T20:03:49Z"
     },
     "docs/play/index.html": {
-      "sha": "a1d974f32d696acd16371ed5a5129785c210f4bf",
-      "producer": "bootstrap@2026-11-04",
+      "sha": "41233300fc9b9268c514588d442a3c8372a1f44b",
+      "producer": "forge-cycle@2026-11-19",
       "class": "generated",
-      "at": "2026-11-04T20:03:49Z"
+      "at": "2026-11-19T00:38:59Z"
     },
     ".github/workflows/build-apps.yml": {
       "sha": "03ee5a1ee1824e50d998bf7defca369f4c2633b2",
@@ -27,17 +27,77 @@
       "at": "2026-11-10T15:12:00Z"
     },
     "VERSION": {
-      "sha": "8acdd82b765e8e0b8cd8787f7f18c7fe2ec52493",
-      "producer": "app-builder/.github/workflows/build.yml version job",
-      "class": "generated",
-      "at": "2026-11-16T12:44:26Z"
+      "sha": "18091983f59ddde8105e566545a0d9e4a12a4f1c",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "agent",
+      "at": "2026-11-19T00:39:00Z"
     },
     "CHANGELOG.md": {
-      "sha": "5edfdf5485a70beee38baf64ac9ba326489bcd04",
-      "producer": "app-builder/.github/workflows/build.yml version job",
+      "sha": "ef19dde885f304a30d18913a546da1195d5354ee",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "agent",
+      "at": "2026-11-19T00:39:00Z"
+    },
+    "src/index.html": {
+      "sha": "96879f7a3c99408ff1a0cec5546016076f7bba10",
+      "producer": "forge-cycle@2026-11-19",
       "class": "generated",
-      "at": "2026-11-16T12:44:26Z"
+      "at": "2026-11-19T00:38:59Z"
+    },
+    "src/locales/en.json": {
+      "sha": "c40ce3a24d3c9b6123b4f9c73c489185ac345b53",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "generated",
+      "at": "2026-11-19T00:38:59Z"
+    },
+    "src/locales/hi.json": {
+      "sha": "d3b85b884c8bb0563adab3271c01f5bee60ff9a4",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "generated",
+      "at": "2026-11-19T00:38:59Z"
+    },
+    "src/locales/gu.json": {
+      "sha": "0df052376c06ca3bb2459348f6b1ff0bcf96e82a",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "generated",
+      "at": "2026-11-19T00:38:59Z"
+    },
+    "dist/conqueror-os.html": {
+      "sha": "41233300fc9b9268c514588d442a3c8372a1f44b",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "generated",
+      "at": "2026-11-19T00:38:59Z"
+    },
+    "tools/extract-strings.py": {
+      "sha": "997f01ea7c2d5e4f9114679e1838add15a331fbe",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "agent",
+      "at": "2026-11-19T00:39:00Z"
+    },
+    "tests/i18n.test.js": {
+      "sha": "fcfaa696cf165de323d472006fd72349fc818f28",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "agent",
+      "at": "2026-11-19T00:39:00Z"
+    },
+    "docs/I18N.md": {
+      "sha": "c0d7500e469d3be463a9befe6237a0e724029a04",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "agent",
+      "at": "2026-11-19T00:39:00Z"
+    },
+    "docs/ROADMAP.md": {
+      "sha": "b7894a6c5d6418107282c87f1ffa9b63f30b9831",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "agent",
+      "at": "2026-11-19T00:39:00Z"
+    },
+    "package.json": {
+      "sha": "066a53f6390aec3229a2cf3f71b4782f31d7c3d2",
+      "producer": "forge-cycle@2026-11-19",
+      "class": "agent",
+      "at": "2026-11-19T00:39:00Z"
     }
   },
-  "updated": "2026-11-16T12:44:26Z"
+  "updated": "2026-11-19T00:39:00Z"
 }

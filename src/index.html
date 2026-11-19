@@ -132,6 +132,9 @@ nav.primary a[aria-current="page"]{background:var(--accent-soft);color:var(--ink
 .recent-box a{display:block;color:var(--text-dim);text-decoration:none;padding:.15rem 0;}
 .recent-box a:hover{color:var(--accent);}
 .copyright-note{padding:.55rem .8rem;border-top:1px solid var(--border);font-size:.68rem;color:var(--text-dim);opacity:.85;}
+.lang-row{padding:.5rem .8rem;border-top:1px solid var(--border);}
+.lang-row select{width:100%;font-family:var(--font-body);font-size:.72rem;padding:.25rem .3rem;color:var(--text-dim);background:transparent;border:1px solid var(--border);border-radius:4px;cursor:pointer;}
+.lang-row select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
 
 #menu-toggle{display:none;background:none;border:1px solid var(--border);border-radius:var(--radius);padding:.3rem .6rem;cursor:pointer;}
 @media (max-width:820px){#menu-toggle{display:block;}}
@@ -532,7 +535,7 @@ a.btn:not(.ghost),.btn:not(.ghost){background:#a35f08!important;color:#ffffff!im
 </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="shell.skip">Skip to content</a>
 <noscript>
   <div class="boot-error">
     <h1>Conqueror OS needs JavaScript</h1>
@@ -614,29 +617,37 @@ a.btn:not(.ghost),.btn:not(.ghost){background:#a35f08!important;color:#ffffff!im
   <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M6 8h12"/><path d="M6 8l-2.5 6h5z"/><path d="M18 8l-2.5 6h5z"/></symbol>
 </svg>
 
+<!-- The runtime catalogue. tools/extract-strings.py owns this block: it is generated
+     from the English declared in this file plus src/locales/<lang>.json, and CI fails
+     when it is stale. Do not hand-edit it. -->
+<script id="i18n-data" type="application/json">{"en":{"aria.breadcrumb":"Breadcrumb","aria.open-search":"Open search","aria.primary":"Primary","aria.search":"Search","aria.search-input":"Search","aria.toggle-nav":"Toggle navigation","aria.toggle-theme":"Toggle theme","nav.bookmarks":"Bookmarks","nav.challenges":"Challenges","nav.dashboard":"Dashboard","nav.insights":"Insights","nav.journal":"Journal","nav.library":"Library","nav.review":"Review","nav.settings":"Settings","nav.trackers":"Trackers","shell.brand.sub":"Resilience Operating System","shell.language":"Language","shell.recent":"Recent","shell.recent.empty":"Nothing yet","shell.search.hint":"Search everything…","shell.search.placeholder":"Search titles, chapters, quotes, exercises, journal…","shell.skip":"Skip to content"},"gu":{"aria.breadcrumb":"નેવિગેશન પથ","aria.open-search":"શોધ ખોલો","aria.primary":"મુખ્ય","aria.search":"શોધો","aria.search-input":"શોધો","aria.toggle-nav":"નેવિગેશન બતાવો કે છુપાવો","aria.toggle-theme":"થીમ બદલો","nav.bookmarks":"બુકમાર્ક","nav.challenges":"પડકારો","nav.dashboard":"ડેશબોર્ડ","nav.insights":"અંતર્દૃષ્ટિ","nav.journal":"જર્નલ","nav.library":"પુસ્તકાલય","nav.review":"પુનરાવલોકન","nav.settings":"સેટિંગ્સ","nav.trackers":"ટ્રેકર","shell.brand.sub":"સ્થિતિસ્થાપકતા ઓપરેટિંગ સિસ્ટમ","shell.language":"ભાષા","shell.recent":"તાજેતરના","shell.recent.empty":"હજી કંઈ નથી","shell.search.hint":"બધું શોધો…","shell.search.placeholder":"શીર્ષક, પ્રકરણ, અવતરણ, કસરત અને જર્નલ શોધો…","shell.skip":"સામગ્રી પર જાઓ"},"hi":{"aria.breadcrumb":"नेविगेशन पथ","aria.open-search":"खोज खोलें","aria.primary":"मुख्य","aria.search":"खोजें","aria.search-input":"खोजें","aria.toggle-nav":"नेविगेशन दिखाएँ या छिपाएँ","aria.toggle-theme":"थीम बदलें","nav.bookmarks":"बुकमार्क","nav.challenges":"चुनौतियाँ","nav.dashboard":"डैशबोर्ड","nav.insights":"अंतर्दृष्टि","nav.journal":"जर्नल","nav.library":"पुस्तकालय","nav.review":"पुनरावलोकन","nav.settings":"सेटिंग्स","nav.trackers":"ट्रैकर","shell.brand.sub":"लचीलापन ऑपरेटिंग सिस्टम","shell.language":"भाषा","shell.recent":"हाल के","shell.recent.empty":"अभी कुछ नहीं","shell.search.hint":"सब कुछ खोजें…","shell.search.placeholder":"शीर्षक, अध्याय, उद्धरण, अभ्यास और जर्नल खोजें…","shell.skip":"सामग्री पर जाएँ"}}</script>
+
 <div id="app">
 
   <aside id="sidebar">
-    <div class="brand">Conqueror OS<small>Resilience Operating System</small></div>
-    <nav class="primary" id="primary-nav" aria-label="Primary"></nav>
+    <div class="brand">Conqueror OS<small data-i18n="shell.brand.sub">Resilience Operating System</small></div>
+    <nav class="primary" id="primary-nav" aria-label="Primary" data-i18n-attr="aria-label:aria.primary"></nav>
     <div class="recent-box">
-      <h3>Recent</h3>
+      <h3 data-i18n="shell.recent">Recent</h3>
       <div id="recent-list"></div>
+    </div>
+    <div class="lang-row">
+      <select id="lang-select" aria-label="Language" data-i18n-attr="aria-label:shell.language"></select>
     </div>
     <div class="copyright-note">© 2026 Dr Sohil Momin</div>
   </aside>
 
   <header id="header">
-    <button id="menu-toggle" aria-label="Toggle navigation" data-icon="menu" data-icon-size="20"></button>
-    <nav id="breadcrumb" aria-label="Breadcrumb"></nav>
+    <button id="menu-toggle" aria-label="Toggle navigation" data-icon="menu" data-icon-size="20" data-i18n-attr="aria-label:aria.toggle-nav"></button>
+    <nav id="breadcrumb" aria-label="Breadcrumb" data-i18n-attr="aria-label:aria.breadcrumb"></nav>
     <div class="header-spacer"></div>
-    <div id="search-box" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open search">
+    <div id="search-box" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open search" data-i18n-attr="aria-label:aria.open-search">
       <span class="search-ico" data-icon="search" data-icon-size="16"></span>
-      <span id="search-box-label" style="color:var(--text-dim);font-size:.85rem;">Search everything…</span>
+      <span id="search-box-label" style="color:var(--text-dim);font-size:.85rem;" data-i18n="shell.search.hint">Search everything…</span>
       <span style="flex:1;"></span>
       <kbd>/</kbd>
     </div>
-    <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme"></button>
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" data-i18n-attr="aria-label:aria.toggle-theme"></button>
   </header>
 
   <main id="main" tabindex="-1"></main>
@@ -647,9 +658,9 @@ a.btn:not(.ghost),.btn:not(.ghost){background:#a35f08!important;color:#ffffff!im
   </footer>
 </div>
 
-<div id="search-overlay" role="dialog" aria-modal="true" aria-label="Search">
+<div id="search-overlay" role="dialog" aria-modal="true" aria-label="Search" data-i18n-attr="aria-label:aria.search">
   <div id="search-panel">
-    <input id="search-input" type="text" placeholder="Search titles, chapters, quotes, exercises, journal…" autocomplete="off" aria-label="Search">
+    <input id="search-input" type="text" placeholder="Search titles, chapters, quotes, exercises, journal…" autocomplete="off" aria-label="Search" data-i18n-attr="placeholder:shell.search.placeholder;aria-label:aria.search-input">
     <div id="search-results"></div>
   </div>
 </div>
@@ -1095,7 +1106,7 @@ function getChallenge(id){ return CONTENT.challenges.find(c=>c.id===id); }
    3. APPLICATION STATE
    ========================================================= */
 const DEFAULT_STATE = {
-  settings:{ theme:"light", fontSize:16, lineSpacing:"comfortable", readingWidth:"medium", reviewDailyCap:0, reviewFirstInterval:1, reviewSecondInterval:6 },
+  settings:{ theme:"light", lang:"en", fontSize:16, lineSpacing:"comfortable", readingWidth:"medium", reviewDailyCap:0, reviewFirstInterval:1, reviewSecondInterval:6 },
   session:{ currentChapterId:null, scrollByChapter:{} },
   progress:{ /* chapterId: {status:'in-progress'|'complete', percent} */ },
   bookmarks:[], // {id, chapterId, label, createdAt}
@@ -1129,6 +1140,74 @@ function persist(){
 }
 
 window.addEventListener("beforeunload", ()=>Storage.save(state));
+
+/* =========================================================
+   3b. I18N — the interface speaks more than English
+
+   The English lives in the markup (data-i18n / data-i18n-attr) and in the nav
+   table; tools/extract-strings.py reads it from there and writes both the
+   catalogue files and the JSON block above, so a string can never be translated
+   in one place and stale in another. A key that is missing falls back to English
+   and then to the caller's own literal — never to the key itself.
+   ========================================================= */
+const I18N_DATA = (function(){
+  const el = document.getElementById("i18n-data");
+  try{ return el ? JSON.parse(el.textContent) : {}; }catch(_){ return {}; }
+})();
+const I18N_LANGS = Object.keys(I18N_DATA).sort();
+const I18N_FALLBACK = "en";
+/* A language is named in its own language: a reader looking for Gujarati is
+   looking for "ગુજરાતી", not for the word "Gujarati" in whatever it is set to. */
+const I18N_LANG_NAMES = { en:"English", hi:"हिन्दी", gu:"ગુજરાતી" };
+
+function i18nLang(){
+  const wanted = state.settings.lang;
+  return Object.prototype.hasOwnProperty.call(I18N_DATA, wanted) ? wanted : I18N_FALLBACK;
+}
+function t(key, fallback){
+  const table = I18N_DATA[i18nLang()] || {};
+  if(Object.prototype.hasOwnProperty.call(table, key)) return table[key];
+  const base = I18N_DATA[I18N_FALLBACK] || {};
+  if(Object.prototype.hasOwnProperty.call(base, key)) return base[key];
+  return fallback !== undefined ? fallback : key;
+}
+function i18nApply(root){
+  const scope = root || document;
+  const lang = i18nLang();
+  scope.querySelectorAll("[data-i18n]").forEach(el=>{
+    el.textContent = t(el.getAttribute("data-i18n"), el.textContent);
+  });
+  scope.querySelectorAll("[data-i18n-attr]").forEach(el=>{
+    el.getAttribute("data-i18n-attr").split(";").forEach(pair=>{
+      const cut = pair.indexOf(":");
+      if(cut < 0) return;
+      const attr = pair.slice(0,cut).trim(), key = pair.slice(cut+1).trim();
+      if(attr && key) el.setAttribute(attr, t(key, el.getAttribute(attr) || ""));
+    });
+  });
+  document.documentElement.lang = lang;
+}
+function setLang(code){
+  if(!Object.prototype.hasOwnProperty.call(I18N_DATA, code)) return false;
+  state.settings.lang = code;
+  persist();
+  i18nApply(document);
+  const sel = document.getElementById("lang-select");
+  if(sel && sel.value !== code) sel.value = code;
+  render();
+  return true;
+}
+function initI18n(){
+  const sel = document.getElementById("lang-select");
+  if(sel){
+    sel.innerHTML = I18N_LANGS.map(code=>
+      `<option value="${code}"${code===i18nLang()?" selected":""}>${escapeHtml(I18N_LANG_NAMES[code] || code)}</option>`
+    ).join("");
+    sel.addEventListener("change", ()=>setLang(sel.value));
+  }
+  i18nApply(document);
+}
+window.I18n = { t, apply:i18nApply, set:setLang, data:I18N_DATA, langs:I18N_LANGS, current:i18nLang };
 
 /* =========================================================
    4. UTIL
@@ -1493,27 +1572,27 @@ function diagramBlock(chapterId){
 
 
 const NAV_ITEMS = [
-  {id:"dashboard", label:"Dashboard", icon:"grid"},
-  {id:"library", label:"Library", icon:"book"},
-  {id:"journal", label:"Journal", icon:"pen"},
-  {id:"trackers", label:"Trackers", icon:"activity"},
-  {id:"challenges", label:"Challenges", icon:"target"},
-  {id:"insights", label:"Insights", icon:"chart"},
-  {id:"settings", label:"Settings", icon:"settings"}
+  {id:"dashboard", label:"Dashboard", i18n:"nav.dashboard", icon:"grid"},
+  {id:"library", label:"Library", i18n:"nav.library", icon:"book"},
+  {id:"journal", label:"Journal", i18n:"nav.journal", icon:"pen"},
+  {id:"trackers", label:"Trackers", i18n:"nav.trackers", icon:"activity"},
+  {id:"challenges", label:"Challenges", i18n:"nav.challenges", icon:"target"},
+  {id:"insights", label:"Insights", i18n:"nav.insights", icon:"chart"},
+  {id:"settings", label:"Settings", i18n:"nav.settings", icon:"settings"}
 ];
 
 function renderNav(activeView){
   const nav = document.getElementById("primary-nav");
   nav.innerHTML = NAV_ITEMS.map(item=>{
     const current = activeView===item.id ? ' aria-current="page"' : "";
-    return `<a href="#/${item.id}"${current}><span class="nav-icon">${item.icon}</span>${item.label}</a>`;
+    return `<a href="#/${item.id}"${current}><span class="nav-icon">${item.icon}</span>${escapeHtml(t(item.i18n, item.label))}</a>`;
   }).join("");
 
   const recentBox = document.getElementById("recent-list");
   const recents = getRecentChapters();
   recentBox.innerHTML = recents.length ? recents.map(c=>
     `<a href="#/reader/${c.id}">${escapeHtml(c.title)}</a>`
-  ).join("") : `<span style="opacity:.6;">Nothing yet</span>`;
+  ).join("") : `<span style="opacity:.6;">${escapeHtml(t("shell.recent.empty","Nothing yet"))}</span>`;
 }
 
 function getRecentChapters(){
@@ -1543,7 +1622,7 @@ function renderBreadcrumb(view, params){
   } else {
     const label = NAV_ITEMS.find(i=>i.id===view);
     const fallback = view ? view.charAt(0).toUpperCase()+view.slice(1) : "";
-    trail.push(`<span>${label ? label.label : fallback}</span>`);
+    trail.push(`<span>${label ? escapeHtml(t(label.i18n, label.label)) : escapeHtml(fallback)}</span>`);
   }
   bc.innerHTML = trail.join(" <span style='opacity:.4'>/</span> ");
 }
@@ -3354,19 +3433,19 @@ const EXTRA_VIEWS = {};
    ============================================================ */
 
 /* ---------- nav ---------- */
-NAV_ITEMS.push({id:"review", label:"Review", icon:"refresh"});
-NAV_ITEMS.push({id:"bookmarks", label:"Bookmarks", icon:"bookmark"});
+NAV_ITEMS.push({id:"review", label:"Review", i18n:"nav.review", icon:"refresh"});
+NAV_ITEMS.push({id:"bookmarks", label:"Bookmarks", i18n:"nav.bookmarks", icon:"bookmark"});
 
 renderNav = function(activeView){
   const nav = document.getElementById("primary-nav");
   nav.innerHTML = NAV_ITEMS.map(item=>{
     const current = activeView===item.id ? ' aria-current="page"' : "";
-    return '<a href="#/'+item.id+'"'+current+'><span class="nav-icon" data-icon="'+item.icon+'" data-icon-size="18"></span><span class="nav-text">'+escapeHtml(item.label)+'</span></a>';
+    return '<a href="#/'+item.id+'"'+current+'><span class="nav-icon" data-icon="'+item.icon+'" data-icon-size="18"></span><span class="nav-text">'+escapeHtml(t(item.i18n, item.label))+'</span></a>';
   }).join("");
   const recentBox = document.getElementById("recent-list");
   const recents = getRecentChapters();
   recentBox.innerHTML = recents.length ? recents.map(c=>'<a href="#/reader/'+c.id+'">'+escapeHtml(c.title)+'</a>').join("")
-    : '<span style="opacity:.6;">Nothing yet</span>';
+    : '<span style="opacity:.6;">'+escapeHtml(t("shell.recent.empty","Nothing yet"))+'</span>';
 };
 
 /* ---------- dispatcher ---------- */
@@ -4606,6 +4685,7 @@ const APP_VERSION = "3.1";
 function boot(){
   try{
     applyTheme();
+    initI18n();
     initSearch();
     initScrollTracking();
     initGlobalKeys();

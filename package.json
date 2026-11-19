@@ -1,6 +1,6 @@
 {
   "name": "conqueror-os",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "A private, offline resilience workspace in a single HTML file — read, reflect, journal, track and review.",
   "keywords": [
     "offline",
@@ -21,10 +21,12 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "node tests/smoke.test.js && node tests/sw.test.js",
+    "test": "node tests/smoke.test.js && node tests/sw.test.js && node tests/i18n.test.js",
     "serve": "node scripts/serve.js",
     "verify": "npm test && npm run build",
-    "test:sw": "node tests/sw.test.js"
+    "test:sw": "node tests/sw.test.js",
+    "test:i18n": "node tests/i18n.test.js",
+    "test:strings": "python3 tools/extract-strings.py --check"
   },
   "devDependencies": {
     "happy-dom": "^15.11.7",

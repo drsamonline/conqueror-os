@@ -11,12 +11,19 @@ The project's constraints shape the roadmap: **no backend, no accounts, no runti
 ## Shipped since 3.0
 
 - **Review scheduling options** — a configurable daily review cap and first/second review intervals (Settings → Review).
+- **Localisation, step 1 (3.4.0)** — the shell, the navigation, the search box and every
+  ARIA label in English, Hindi and Gujarati. The English stays in the markup and
+  `tools/extract-strings.py` generates the catalogues from it, so the two cannot drift;
+  `--check` is a CI step. 23 keys, 44 runtime assertions in `tests/i18n.test.js`.
 - **Optional service worker (3.2.0)** — served over http(s) the app registers `sw.js`: cache-first for same-origin GETs, a cache named for the release so a new version cannot serve the old shell, nothing else intercepted. Opened from disk it is unchanged. *Still true:* installability is the browser's call and Chrome also wants a manifest, which this app does not ship.
 
 ## Next
 
-- **Localisation** — Hindi and Gujarati UI, plus right-to-left support where needed. Strings are currently inline; extraction is the first step.
-- **Reading goals** — a target number of minutes or chapters per week with gentle progress feedback.
+- **Localisation, continued** — the shell and the navigation ship in Hindi and Gujarati
+  as of 3.4.0 (see [`I18N.md`](I18N.md)). What is left is every string inside the views:
+  they are built in JavaScript template literals, so they need a second extraction pass
+  and then the translation itself. Right-to-left support is unbuilt and has nothing to
+  mirror yet — Hindi and Gujarati are both LTR.
 - **Print/exports** — richer "print chapter as worksheet" and "print journal range" layouts.
 
 ## Later / under consideration
