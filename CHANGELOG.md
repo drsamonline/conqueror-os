@@ -1,5 +1,40 @@
 # Changelog
 
+## 3.5.0 — 2026-11-21
+
+### Added — the Today screen speaks Hindi and Gujarati
+
+- **The landing screen is localised end to end.** Every string the Today view builds
+  now comes from the catalogue through `t("key","English")`: the page title and lede,
+  the streak ribbon and its day counter, the Review and Continue-reading buttons, the
+  mission / reading-progress / review-queue widgets, the active-challenge card and its
+  empty state, the reading-goal bar and its three messages, the resume banner, the four
+  section titles, both empty states, and the shortcut line. 47 new keys; the catalogue
+  is now **70 keys × 3 languages**.
+- **`t()` is now a declaring site in practice, not only in the tool.** The extraction
+  pass already read call sites; nothing used it beyond the sidebar's empty state. The
+  views can be localised without a new tool, which is what `docs/I18N.md` had said was
+  missing — it was the *use* that was missing.
+- **The Today view re-renders when the language changes.** `setLang()` already called
+  `render()`; the suite now proves the view changes in place, with the hash unchanged,
+  so a reader does not have to navigate away and back.
+- **The orphan check reads the source instead of a hand-list.** `tests/i18n.test.js`
+  used to whitelist two call-site keys by name; it now scans `t("key","English")` out of
+  the same script the app runs, so a key cannot become "orphaned" merely because a view
+  was localised. 63 assertions (was 44).
+
+### Fixed
+
+- A stale-node bug in the new test itself, caught on its first run: `render()` replaces
+  `#main`'s children, so a captured element goes dead the moment the language changes.
+  The assertions re-query instead.
+
+### Not claimed
+
+- Seven views are still English — Library, Reader, Journal, Trackers, Challenges,
+  Insights, Settings — plus modals, toasts and the export/preview surfaces. The pattern
+  is proven; the remaining work is the same three steps per view.
+
 ## 3.4.0 — 2026-11-19
 
 ### Added — the interface speaks Hindi and Gujarati
