@@ -97,7 +97,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     const id = href.replace('#/', '');
     if (id) used.add('nav.' + id);
   });
-  ['shell.recent.empty', 'shell.skip'].forEach(k => used.add(k));
+  /* Keys rendered from a t("key","English") call site are declared in the source,
+     not in the markup — so they are read off the very source the app runs, not
+     kept in a hand-list that rots the moment a view is localised. */
+  const callSites = [...appjs.matchAll(/\bt\("([a-z0-9][a-z0-9.\-]*)"\s*,\s*"/g)].map(m => m[1]);
+  ok('catalogue: the source declares call-site strings', callSites.length >= 1, callSites.length + ' call sites');
+  callSites.forEach(k => used.add(k));
   const orphans = enKeys.filter(k => !used.has(k));
   ok('catalogue: no orphaned key that nothing renders', orphans.length === 0, orphans.join(','));
 
@@ -156,6 +161,49 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   eq('persistence: a reload renders the Gujarati navigation',
     [...w2.document.querySelectorAll('#primary-nav .nav-text')].map(x => x.textContent.trim()).indexOf('પુસ્તકાલય') >= 0, true);
   eq('persistence: a reload keeps <html lang> in step', w2.document.documentElement.lang, 'gu');
+
+  /* ------------------------------------------- the Today view speaks too (v3.5) */
+  const w4 = boot();
+  const d4 = w4.document;
+  const H = () => d4.querySelector('#main h1').textContent.trim();
+  const sections = () => [...d4.querySelectorAll('#main .section-title')].map(e => e.textContent.trim());
+  const widgetHeads = () => [...d4.querySelectorAll('#main .widget h3')].map(e => e.textContent.trim());
+  /* A reference, not a node: render() replaces #main's children, so a captured
+     element goes stale the moment the language changes — which is exactly the
+     failure this test caught on its first run. */
+  const lede = () => d4.querySelector('#main .lede');
+
+  eq('view: the Today view opens in English', H(), 'Today');
+  eq('view: its lede is English', lede().textContent.trim(),
+    'Where you are, and the next meaningful action to take.');
+  ok('view: the mission widget is English', widgetHeads().indexOf("Today's Mission") >= 0, widgetHeads().join('|'));
+  eq('view: the section titles are English', sections().join('|'),
+    "Today's prompt|On this day|Favorite quotes|Shortcuts");
+  eq('view: the streak counts in English', d4.querySelector('#main .streak-num').textContent.trim(), '0 days');
+
+  const hashBefore = d4.location.hash;
+  eq('view: switching to Hindi succeeds', w4.I18n.set('hi'), true);
+  eq('view: switching re-renders the view in place, without a navigation', d4.location.hash, hashBefore);
+  eq('view: the Today heading is Hindi', H(), w4.I18n.data.hi['view.today.title']);
+  eq('view: the lede is Hindi', lede().textContent.trim(), w4.I18n.data.hi['view.today.lede']);
+  ok('view: the mission widget is Hindi',
+    widgetHeads().indexOf(w4.I18n.data.hi['view.today.mission.title']) >= 0, widgetHeads().join('|'));
+  eq('view: the section titles are Hindi', sections().join('|'),
+    ['view.today.prompt.title', 'view.today.onthisday', 'view.today.quotes', 'view.today.shortcuts']
+      .map(k => w4.I18n.data.hi[k]).join('|'));
+  ok('view: the streak counts in Hindi',
+    d4.querySelector('#main .streak-num').textContent.trim().endsWith(w4.I18n.data.hi['view.today.day.other']),
+    d4.querySelector('#main .streak-num').textContent);
+  ok('view: a translated line keeps its markup instead of escaping it',
+    d4.querySelector('#main p.muted kbd') !== null, 'no <kbd> survived translation');
+  ok('view: no English leaks into the Hindi Today view',
+    !/Today|Reading Progress|Review Queue|On this day|Favorite quotes|Shortcuts|Continue reading/.test(d4.querySelector('#main').textContent),
+    d4.querySelector('#main').textContent.slice(0, 160));
+
+  eq('view: switching to Gujarati succeeds', w4.I18n.set('gu'), true);
+  eq('view: the Today heading is Gujarati', H(), w4.I18n.data.gu['view.today.title']);
+  eq('view: switching back to English succeeds', w4.I18n.set('en'), true);
+  eq('view: switching back restores the English view', H(), 'Today');
 
   /* ------------------------------------------------------------ fallback path */
   const w3 = boot();
