@@ -15,10 +15,10 @@
       "at": "2026-11-04T20:03:49Z"
     },
     "docs/play/index.html": {
-      "sha": "41233300fc9b9268c514588d442a3c8372a1f44b",
-      "producer": "forge-cycle@2026-11-19",
+      "sha": "e9bd7a5e0e0f580c5449ce148d18e7ca0f510200",
+      "producer": "forge-cycle@2026-11-24",
       "class": "generated",
-      "at": "2026-11-19T00:38:59Z"
+      "at": "2026-11-23T18:42:40Z"
     },
     ".github/workflows/build-apps.yml": {
       "sha": "03ee5a1ee1824e50d998bf7defca369f4c2633b2",
@@ -39,34 +39,34 @@
       "at": "2026-11-19T00:39:00Z"
     },
     "src/index.html": {
-      "sha": "96879f7a3c99408ff1a0cec5546016076f7bba10",
-      "producer": "forge-cycle@2026-11-19",
+      "sha": "f8f4ea27209ef392d34586a1877ffff2322166c6",
+      "producer": "forge-cycle@2026-11-24",
       "class": "generated",
-      "at": "2026-11-19T00:38:59Z"
+      "at": "2026-11-23T18:42:41Z"
     },
     "src/locales/en.json": {
-      "sha": "c40ce3a24d3c9b6123b4f9c73c489185ac345b53",
-      "producer": "forge-cycle@2026-11-19",
+      "sha": "4a62e4333ccac970f82ffb8cfbdaead1a688fd24",
+      "producer": "forge-cycle@2026-11-24",
       "class": "generated",
-      "at": "2026-11-19T00:38:59Z"
+      "at": "2026-11-23T18:42:41Z"
     },
     "src/locales/hi.json": {
-      "sha": "d3b85b884c8bb0563adab3271c01f5bee60ff9a4",
-      "producer": "forge-cycle@2026-11-19",
+      "sha": "e26f0a124f5ac6f052fa819db3fb0f397d08a7ba",
+      "producer": "forge-cycle@2026-11-24",
       "class": "generated",
-      "at": "2026-11-19T00:38:59Z"
+      "at": "2026-11-23T18:42:41Z"
     },
     "src/locales/gu.json": {
-      "sha": "0df052376c06ca3bb2459348f6b1ff0bcf96e82a",
-      "producer": "forge-cycle@2026-11-19",
+      "sha": "ce41fec3904c6b301d9936814e0ba49a361763de",
+      "producer": "forge-cycle@2026-11-24",
       "class": "generated",
-      "at": "2026-11-19T00:38:59Z"
+      "at": "2026-11-23T18:42:41Z"
     },
     "dist/conqueror-os.html": {
-      "sha": "41233300fc9b9268c514588d442a3c8372a1f44b",
-      "producer": "forge-cycle@2026-11-19",
+      "sha": "e9bd7a5e0e0f580c5449ce148d18e7ca0f510200",
+      "producer": "forge-cycle@2026-11-24",
       "class": "generated",
-      "at": "2026-11-19T00:38:59Z"
+      "at": "2026-11-23T18:42:40Z"
     },
     "tools/extract-strings.py": {
       "sha": "997f01ea7c2d5e4f9114679e1838add15a331fbe",
@@ -97,7 +97,13 @@
       "producer": "forge-cycle@2026-11-19",
       "class": "agent",
       "at": "2026-11-19T00:39:00Z"
+    },
+    "package-lock.json": {
+      "sha": "a626e4ff8830c41c4283d6284de29365a83e1f8f",
+      "producer": "forge-cycle@2026-11-24",
+      "class": "generated",
+      "at": "2026-11-23T18:42:40Z"
     }
   },
-  "updated": "2026-11-19T00:39:00Z"
+  "updated": "2026-11-23T18:42:41Z"
 }
