@@ -40,13 +40,21 @@ const appjs = html
   .reduce((a, b) => (a.length >= b.length ? a : b));
 
 function boot(storageSeed) {
-  const window = new Window({ url: 'https://local.test/#/dashboard' });
+  return bootAt('#/dashboard', storageSeed);
+}
+
+/* A boot that opens on another route, and optionally on a VARIANT of the source.
+   The variant is how a content-dependent branch gets exercised: CONTENT is a `const`
+   in the app's own script, so a test cannot reach in and empty it — but it can hand
+   the app a source in which the chapter list is already empty. */
+function bootAt(hash, storageSeed, source) {
+  const window = new Window({ url: 'https://local.test/' + hash });
   window.print = () => {};
   window.confirm = () => true;
   if (storageSeed) window.localStorage.setItem('conquerorOS.v1', storageSeed);
   const { document } = window;
   document.write(htmlNoScripts);
-  window.eval(appjs);
+  window.eval(source || appjs);
   return window;
 }
 
@@ -204,6 +212,104 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   eq('view: the Today heading is Gujarati', H(), w4.I18n.data.gu['view.today.title']);
   eq('view: switching back to English succeeds', w4.I18n.set('en'), true);
   eq('view: switching back restores the English view', H(), 'Today');
+
+  /* ------------------------------------------- the Library view speaks too (v3.6) */
+  /* One implementation, not two. Until v3.6 this file held a `function renderLibrary`
+     that a later `renderLibrary = function` overwrote: the first was dead, and the
+     strings it held were the ones a search-and-translate pass would have found. */
+  eq('library: the source declares exactly one renderLibrary',
+    (appjs.match(/renderLibrary\s*=\s*function/g) || []).length, 1);
+  eq('library: no dead renderLibrary function shadows it',
+    (appjs.match(/function\s+renderLibrary\s*\(/g) || []).length, 0);
+
+  const w5 = bootAt('#/library');
+  const d5 = w5.document;
+  const LH = () => d5.querySelector('#main h1').textContent.trim();
+  const LLede = () => d5.querySelector('#main .lede').textContent.trim();
+  const LTitles = () => [...d5.querySelectorAll('#main .section-title')].map(e => e.textContent.trim());
+  const LStatus = () => [...d5.querySelectorAll('#main .chapter-list .sr-only')].map(e => e.textContent.trim());
+  /* Two books ship: the six-chapter Protocol and the three-chapter Field Manual
+     (added at runtime), so nine status words, and the counts are read per book. */
+  const LMeta = () => d5.querySelector('#main .book-block .book-meta p:last-child').textContent.trim();
+
+  eq('library: it opens in English', LH(), 'Library');
+  eq('library: its lede is English', LLede(),
+    'Your books, structured as parts and chapters — not a pile of pages.');
+  eq('library: the section titles are English', LTitles().join('|'), 'Worksheets|Knowledge graph');
+  eq('library: the book card counts in English', LMeta(), '6 chapters · 0 complete · 52 min');
+  eq('library: the part heading is the one the book data holds',
+    d5.querySelector('#main .part-title').textContent.trim(), 'Part I — Foundations');
+  eq('library: every chapter carries a status word, not only a pip', LStatus().length, 9);
+  eq('library: the chapter time cell is English',
+    d5.querySelector('#main .chapter-list .ch-time').textContent.trim(), '9 min');
+  ok('library: a fresh chapter says "Not started" in words',
+    LStatus().every(s => s === 'Not started'), LStatus().join('|'));
+  ok('library: the pip is decorative, so it is not announced twice',
+    [...d5.querySelectorAll('#main .chapter-list .progress-pip')].every(p => p.getAttribute('aria-hidden') === 'true'),
+    'a pip is exposed to assistive technology');
+
+  eq('library: switching to Hindi succeeds', w5.I18n.set('hi'), true);
+  eq('library: the heading is Hindi', LH(), w5.I18n.data.hi['nav.library']);
+  eq('library: the lede is Hindi', LLede(), w5.I18n.data.hi['view.library.lede']);
+  eq('library: the section titles are Hindi', LTitles().join('|'),
+    ['view.library.worksheets.title', 'view.library.graph.title'].map(k => w5.I18n.data.hi[k]).join('|'));
+  eq('library: the status words are Hindi',
+    LStatus().every(s => s === w5.I18n.data.hi['view.library.status.none']), true);
+  eq('library: the chapter time cell is Hindi',
+    d5.querySelector('#main .chapter-list .ch-time').textContent.trim(),
+    '9 ' + w5.I18n.data.hi['view.library.min']);
+  ok('library: the counts use the Hindi units',
+    LMeta().indexOf(w5.I18n.data.hi['view.library.chapters.other']) >= 0 &&
+    LMeta().indexOf(w5.I18n.data.hi['view.library.min']) >= 0, LMeta());
+  ok('library: no English chrome leaks into the Hindi view',
+    !/\b(Library|Worksheets|Knowledge graph|Not started|chapters|complete|min)\b/
+      .test([LLede(), ...LTitles(), ...LStatus(), LMeta()].join(' ')),
+    [LLede(), ...LTitles(), ...LStatus(), LMeta()].join(' '));
+  eq('library: switching to Gujarati succeeds', w5.I18n.set('gu'), true);
+  eq('library: the heading is Gujarati', LH(), w5.I18n.data.gu['nav.library']);
+  eq('library: switching back to English succeeds', w5.I18n.set('en'), true);
+  eq('library: switching back restores the English heading', LH(), 'Library');
+
+  /* The branch the row asked for: a book whose chapter list is empty. It cannot be
+     reached by editing CONTENT at runtime, so the app is handed a source in which
+     the chapters are already gone — and it must say so instead of rendering an empty
+     list and a book card that links to "#/reader/". */
+  const noChapters = appjs.replace('chapters: [', 'chapters: [], _chapters_unused: [');
+  ok('library: the empty-book fixture really removes the chapters',
+    noChapters !== appjs && noChapters.indexOf('_chapters_unused') >= 0, 'the fixture did not change the source');
+  const w6 = bootAt('#/library', null, noChapters);
+  const d6 = w6.document;
+  eq('library: an empty book still renders the view', d6.querySelector('#main h1').textContent.trim(), 'Library');
+  const firstBlock = () => d6.querySelector('#main .book-block');
+  ok('library: an empty book says so instead of showing an empty list',
+    firstBlock().querySelector('.chapter-list') === null &&
+    firstBlock().querySelector('.empty-state') !== null,
+    'no empty state in the first book block');
+  eq('library: the empty state is the translated sentence',
+    firstBlock().querySelector('.empty-state').textContent.trim(),
+    w6.I18n.data.en['view.library.empty']);
+  eq('library: the book card links nowhere rather than to another book\'s chapter',
+    firstBlock().querySelector('.book-card').getAttribute('href'), '#/reader/');
+  eq('library: the empty book counts zero chapters, not a phantom six',
+    firstBlock().querySelector('.book-meta p:last-child').textContent.trim(),
+    '0 chapters · 0 complete · 52 min');
+  eq('library: the empty state speaks Hindi too', (w6.I18n.set('hi'),
+    firstBlock().querySelector('.empty-state').textContent.trim()), w6.I18n.data.hi['view.library.empty']);
+
+  /* The singular branch. No book ships with one chapter, so the source is given one
+     and the plural rule is read off it rather than assumed. */
+  const oneChapter = appjs.replace(/  chapters: \[[\s\S]*?\n  \],\n  worksheets: \[/,
+    '  chapters: [{id:"ch-only", type:"chapter", bookId:"book-resilience", partId:"part-foundations", order:1, title:"Only Chapter", subtitle:"", tags:[], difficulty:"intro", estimatedReadingMinutes:5, body:["x"], reflection:"r", exercise:"e", quote:"q"}],\n  worksheets: [');
+  ok('library: the one-chapter fixture really leaves one chapter',
+    oneChapter !== appjs && (oneChapter.match(/id:"ch-stress-response"/) || []).length === 0,
+    'the fixture did not replace the chapter list');
+  const w7 = bootAt('#/library', null, oneChapter);
+  const oneMeta = () => w7.document.querySelector('#main .book-block .book-meta p:last-child').textContent.trim();
+  eq('library: a one-chapter book says "1 chapter", not "1 chapters"', oneMeta(),
+    '1 chapter · 0 complete · 52 min');
+  eq('library: the singular is Hindi too', (w7.I18n.set('hi'), oneMeta()),
+    '1 ' + w7.I18n.data.hi['view.library.chapters.one'] + ' · 0 ' +
+    w7.I18n.data.hi['view.library.complete'] + ' · 52 ' + w7.I18n.data.hi['view.library.min']);
 
   /* ------------------------------------------------------------ fallback path */
   const w3 = boot();

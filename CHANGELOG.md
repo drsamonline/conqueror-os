@@ -1,5 +1,40 @@
 # Changelog
 
+## 3.6.0 — 2026-11-24
+
+### Added — the Library speaks Hindi and Gujarati, and says progress in words
+
+- **The Library view is localised.** The heading, the lede, the two section titles,
+  the worksheets and knowledge-graph lines and their calls to action, the per-book
+  counts and the chapter time cell all come from the catalogue through
+  `t("key","English")`. 14 new keys; the catalogue is now **84 keys × 3 languages**.
+- **The chapter count has a singular.** A book with one chapter says "1 chapter", not
+  "1 chapters", in every language — the branch is exercised by a fixture that gives the
+  source a one-chapter book, not left to be noticed in production.
+- **Chapter progress is a word, not only a colour.** Every chapter row now carries a
+  visually-hidden status word — Complete / In progress / Not started — beside a pip that
+  is `aria-hidden`. Before this, a screen reader heard the chapter title and nothing
+  about progress, and a colour-blind reader had the same gap.
+- **An empty chapter list says so.** A book whose chapters are missing rendered an empty
+  `<ul>` and a card linking to `#/reader/`, which the router resolves to another book's
+  first chapter. It now renders a translated empty state, and the card's link is built
+  from a guarded first chapter.
+
+### Fixed
+
+- **A dead `renderLibrary` was deleted.** The file held a `function renderLibrary(){…}`
+  at line 1848 that a later `renderLibrary = function(){…}` overwrote. The dead copy was
+  the one that hard-coded "Part I — Foundations" and its own English strings, so a
+  search-and-translate pass would have localised a function nothing calls. The suite now
+  asserts there is exactly one implementation and no shadowing `function`.
+
+### Not claimed
+
+- Authored content — book titles, descriptions, chapter titles and part headings — is
+  still the book's own language. Translating it is an authoring job, not a catalogue one.
+- Six views remain English: Reader, Journal, Trackers, Challenges, Insights, Settings,
+  plus modals, toasts and the export/preview surfaces.
+
 ## 3.5.0 — 2026-11-21
 
 ### Added — the Today screen speaks Hindi and Gujarati
