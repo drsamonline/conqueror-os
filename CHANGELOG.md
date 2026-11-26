@@ -1,5 +1,37 @@
 # Changelog
 
+## 3.7.0 — 2026-11-26
+
+### Added — the Reader speaks Hindi and Gujarati, and its dwell clock stops when you leave
+
+- **The Reader view is localised** (51 new keys; the catalogue is now **135 keys × 3
+  languages**): the whole toolbar — bookmark/favourite, highlight, read aloud, print,
+  contents, focus, dim, spacing, width — with its `aria-label`s and titles; the
+  Reflection, Exercise, Your notes and Daily practice headings; the note placeholder and
+  its Markdown hint; the four daily-practice labels; "Mark chapter complete"; previous
+  and next; the contents panel and its close button; and the five aside headings with
+  their empty states.
+- **The visible label and the `aria-label` are the same string**, so a screen reader is
+  told what the button says rather than what it said in English. The suite asserts they
+  agree for every toolbar control, in both languages.
+- **The three cycling controls carry one key per state** — "Dim: on"/"Dim: off", three
+  spacings, three widths — rather than a stem with the state word glued on: a translator
+  handed "Spacing: " alone cannot know whether an adjective, a noun or a case-marked word
+  follows, and the state word is the part that carries the meaning.
+- **The favourite toggle no longer hard-codes its own label** when it re-labels itself
+  after a click, and its live-region announcement is translated too.
+- **Deleted the dead `function renderReader`** that `renderReader = function` overwrote on
+  the very first render: 207 shadowed lines still holding a full set of hard-coded English
+  labels — the copy a search-and-translate pass would have found first. The same defect
+  the Library had in 3.6.0, one view along. The suite asserts one implementation and no
+  shadowing function.
+- **The dwell clock stops when you leave the Reader.** `renderReader` set a 20 s interval
+  that was only ever replaced, never cleared, so it kept counting time against a chapter
+  that was no longer on screen for the rest of the session — and kept a headless window's
+  event loop alive after the suite had finished. The suite now exits explicitly, as
+  `smoke.test.js` always has.
+- `tests/i18n.test.js` **96 → 125 assertions**; **8 mutations, all 8 red**.
+
 ## 3.6.0 — 2026-11-24
 
 ### Added — the Library speaks Hindi and Gujarati, and says progress in words

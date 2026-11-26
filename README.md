@@ -209,7 +209,7 @@ npm test            # runs the headless DOM smoke suite
 
 ## Testing
 
-The smoke suite (`tests/smoke.test.js`) drives the real application in a headless DOM and asserts **44 checks** across every route, persistence path and interaction — plus a regression guard for the bugs fixed during the audit. `tests/i18n.test.js` adds **63** more for the localisation pipeline, and `tests/sw.test.js` **21** for the optional service worker. `python3 tools/extract-strings.py --check` keeps the string catalogues in step with the source (see [`docs/I18N.md`](docs/I18N.md)). Continuous integration runs the suite and the build on every push and pull request (see [`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+The smoke suite (`tests/smoke.test.js`) drives the real application in a headless DOM and asserts **44 checks** across every route, persistence path and interaction — plus a regression guard for the bugs fixed during the audit. `tests/i18n.test.js` adds **125** more for the localisation pipeline, and `tests/sw.test.js` **21** for the optional service worker. `python3 tools/extract-strings.py --check` keeps the string catalogues in step with the source (see [`docs/I18N.md`](docs/I18N.md)). Continuous integration runs the suite and the build on every push and pull request (see [`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 
 The project was additionally verified in real headless Chromium (22 checks, zero console errors) during development.
 
@@ -255,7 +255,7 @@ conqueror-os/
 
 ## Roadmap
 
-See [`docs/ROADMAP.md`](docs/ROADMAP.md). Near-term themes: finishing Hindi/Gujarati localisation (the shell shipped in 3.4.0 and the Today screen in 3.5.0; the other seven views are still English), and optional end-to-end sync via an export file. The optional service worker shipped in 3.2.0: served over HTTP the app caches its own shell and opens with the network off.
+See [`docs/ROADMAP.md`](docs/ROADMAP.md). Near-term themes: finishing Hindi/Gujarati localisation (the shell shipped in 3.4.0, Today in 3.5.0, the Library in 3.6.0 and the Reader in 3.7.0; five views are still English), and optional end-to-end sync via an export file. The optional service worker shipped in 3.2.0: served over HTTP the app caches its own shell and opens with the network off.
 
 ## Contributing
 
