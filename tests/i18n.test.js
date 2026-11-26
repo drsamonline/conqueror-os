@@ -311,6 +311,107 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     '1 ' + w7.I18n.data.hi['view.library.chapters.one'] + ' · 0 ' +
     w7.I18n.data.hi['view.library.complete'] + ' · 52 ' + w7.I18n.data.hi['view.library.min']);
 
+  /* -------------------------------------------- the Reader view speaks too (v3.7) */
+  /* One implementation, not two. Until v3.7 the source held a `function renderReader`
+     that `renderReader = function` overwrote on the first render: dead code that still
+     carried a full set of hard-coded English labels — the copy a search-and-translate
+     pass would have found first. Same defect as the Library's, one view along. */
+  eq('reader: the source declares exactly one renderReader',
+    (appjs.match(/renderReader\s*=\s*function/g) || []).length, 1);
+  eq('reader: no dead renderReader function shadows it',
+    (appjs.match(/function\s+renderReader\s*\(/g) || []).length, 0);
+
+  const w8 = bootAt('#/reader/ch-story-you-tell');
+  const d8 = w8.document;
+  const BTN = id => d8.getElementById(id);
+  const tbText = id => BTN(id).textContent.trim();
+  const tbLabel = id => BTN(id).getAttribute('aria-label');
+  const TOOLBAR = ['btn-bookmark', 'btn-fav', 'btn-hl-amber', 'btn-tts', 'btn-print',
+    'btn-toc', 'btn-focus', 'btn-dim', 'btn-spacing', 'btn-width'];
+  const toolbarText = () => TOOLBAR.map(tbText).join('|');
+  const blockHeads = () => [...d8.querySelectorAll('#main .block h4')].map(e => e.textContent.trim());
+  const asideHeads = () => [...d8.querySelectorAll('#reader-aside .aside-block h4')].map(e => e.textContent.trim());
+  const dpRows = () => [...d8.querySelectorAll('#main .dp-row')].map(l => l.textContent.trim());
+  const notePlaceholder = () => d8.getElementById('chapter-note').getAttribute('placeholder');
+  const noteHint = () => d8.querySelector('#main .hint').textContent.trim();
+  const navDirs = () => [...d8.querySelectorAll('#main .reader-nav .dir')].map(e => e.textContent.trim());
+
+  ok('reader: the reading time is English',
+    d8.querySelector('#reader-meta span').textContent.trim().endsWith(' min read'),
+    d8.querySelector('#reader-meta span').textContent);
+  eq('reader: the toolbar is English', toolbarText(),
+    ['Bookmark', 'Favourite', 'Highlight', 'Read aloud', 'Print', 'Contents', 'Focus',
+      'Dim: off', 'Spacing: comfortable', 'Width: medium'].join('|'));
+  /* The visible label and the aria-label are built from the same translated string, so
+     a screen reader is told what the button says rather than what it said in English. */
+  ok('reader: every toolbar control announces the same words it shows',
+    TOOLBAR.every(id => tbLabel(id) === tbText(id)),
+    TOOLBAR.filter(id => tbLabel(id) !== tbText(id)).join(','));
+  ok('reader: the toolbar controls carry a translated title where one exists',
+    BTN('btn-hl-amber').getAttribute('title') === 'Highlight the selected text',
+    BTN('btn-hl-amber').getAttribute('title'));
+  eq('reader: the block headings are English', blockHeads().join('|'),
+    'Reflection|Exercise|Your notes|Daily practice');
+  eq('reader: the note placeholder is English', notePlaceholder(),
+    'Write a note tied to this chapter… **bold**, *italic*, # headings, - lists, > quotes, and [[Chapter Title]] links');
+  eq('reader: the note hint is English', noteHint(),
+    'Markdown supported, including [[wiki links]] to other chapters.');
+  eq('reader: the four daily-practice labels are English', dpRows().join('|'),
+    'Read the chapter|Answer the reflection|Do the exercise|Log it in your journal');
+  /* Chapter 2 of 6, so BOTH directions are on screen: the first chapter would show
+     only "Next" and the last only "Previous", and a one-sided fixture would let a
+     hard-coded label survive on the other side. */
+  eq('reader: the previous/next labels are English', navDirs().join('|'), '← Previous|Next →');
+  ok('reader: the aside headings are English',
+    asideHeads().indexOf('Related chapters') >= 0 && asideHeads().indexOf('Bookmarks in this book') >= 0,
+    asideHeads().join('|'));
+
+  const rHash = d8.location.hash;
+  eq('reader: switching to Hindi succeeds', w8.I18n.set('hi'), true);
+  eq('reader: switching re-renders the reader in place', d8.location.hash, rHash);
+  const hi8 = w8.I18n.data.hi;
+  eq('reader: the toolbar is Hindi', toolbarText(),
+    ['view.reader.bookmark', 'view.reader.fav', 'view.reader.highlight', 'view.reader.tts',
+      'view.reader.print', 'view.reader.contents', 'view.reader.focus', 'view.reader.dim.off',
+      'view.reader.spacing.comfortable', 'view.reader.width.medium'].map(k => hi8[k]).join('|'));
+  eq('reader: the block headings are Hindi', blockHeads().join('|'),
+    ['view.reader.reflection', 'view.reader.exercise', 'view.reader.notes', 'view.reader.practice']
+      .map(k => hi8[k]).join('|'));
+  eq('reader: the note placeholder is Hindi', notePlaceholder(), hi8['view.reader.note.placeholder']);
+  eq('reader: the daily-practice labels are Hindi', dpRows().join('|'),
+    ['view.reader.practice.read', 'view.reader.practice.reflect', 'view.reader.practice.exercise',
+      'view.reader.practice.journal'].map(k => hi8[k]).join('|'));
+  eq('reader: the previous/next labels are Hindi', navDirs().join('|'),
+    [hi8['view.reader.prev'], hi8['view.reader.next']].join('|'));
+  ok('reader: the mark-complete button is Hindi',
+    d8.getElementById('btn-mark-complete').textContent.trim() === hi8['view.reader.complete'],
+    d8.getElementById('btn-mark-complete').textContent);
+  /* The state-cycling buttons: one key PER STATE, so the label after a click is the
+     next state's translation and not an English word glued to a Hindi stem. */
+  BTN('btn-spacing').click();
+  eq('reader: cycling spacing reads the next state out of the catalogue',
+    tbText('btn-spacing'), hi8['view.reader.spacing.spacious']);
+  BTN('btn-width').click();
+  eq('reader: cycling width reads the next state out of the catalogue',
+    tbText('btn-width'), hi8['view.reader.width.wide']);
+  BTN('btn-dim').click();
+  eq('reader: the dim toggle reads its ON state out of the catalogue',
+    tbText('btn-dim'), hi8['view.reader.dim.on']);
+  /* The aria-label is read off the same catalogue value as the visible text, so a
+     control that says "प्रिंट" cannot still be announced as "Print". */
+  ok('reader: the aria-labels follow the language switch too',
+    TOOLBAR.every(id => tbLabel(id) === tbText(id)),
+    TOOLBAR.filter(id => tbLabel(id) !== tbText(id)).map(id => id + '=' + tbLabel(id)).join(','));
+  ok('reader: no English chrome leaks into the Hindi reader',
+    !/\b(Bookmark|Bookmarked|Favourite|Favourited|Highlight|Read aloud|Print|Contents|Focus|Dim:|Spacing:|Width:|Reflection|Exercise|Your notes|Daily practice|Mark chapter complete|Previous|Next|min read)\b/
+      .test([toolbarText(), blockHeads().join(' '), notePlaceholder(), dpRows().join(' '),
+        navDirs().join(' '), d8.getElementById('btn-mark-complete').textContent].join(' ')),
+    toolbarText());
+  eq('reader: switching to Gujarati succeeds', w8.I18n.set('gu'), true);
+  eq('reader: the toolbar is Gujarati', tbText('btn-print'), w8.I18n.data.gu['view.reader.print']);
+  eq('reader: switching back to English succeeds', w8.I18n.set('en'), true);
+  eq('reader: switching back restores the English toolbar', tbText('btn-print'), 'Print');
+
   /* ------------------------------------------------------------ fallback path */
   const w3 = boot();
   const fallback = w3.I18n.t('nav.library', 'Library');
@@ -335,6 +436,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   });
   console.log(`\n${passed}/${results.length} passed`);
   if (passed !== results.length) process.exitCode = 1;
+  /* Exit explicitly. The Reader's dwell clock is a real 20 s interval, and a window
+     left in the Reader keeps this process alive after the last assertion — the suite
+     then reads as a CI timeout instead of the result it had already computed. (The app
+     now stops that clock when you leave the Reader; this is the belt to that braces,
+     and it is what smoke.test.js has always done.) */
+  process.exit(process.exitCode || 0);
 })().catch(err => {
   console.error('i18n suite crashed:', err);
   process.exitCode = 1;

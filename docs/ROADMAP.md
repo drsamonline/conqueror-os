@@ -19,14 +19,19 @@ The project's constraints shape the roadmap: **no backend, no accounts, no runti
   section titles, empty states, the reading-goal bar and the resume banner, in English,
   Hindi and Gujarati. 47 keys (70 in total); `tests/i18n.test.js` grew from 44 to 63
   assertions, including that switching language re-renders the view in place.
+- **Localisation, step 4 (3.7.0)** — the Reader: the whole toolbar with its ARIA labels,
+  the four block headings, the note placeholder and hint, the daily-practice labels, the
+  previous/next links, the contents panel and the aside headings, in English, Hindi and
+  Gujarati. 51 keys (135 in total); `tests/i18n.test.js` grew from 96 to 125 assertions.
+  The 20 s dwell interval now stops when you leave the Reader instead of counting time
+  against a chapter that is no longer on screen.
 - **Optional service worker (3.2.0)** — served over http(s) the app registers `sw.js`: cache-first for same-origin GETs, a cache named for the release so a new version cannot serve the old shell, nothing else intercepted. Opened from disk it is unchanged. *Still true:* installability is the browser's call and Chrome also wants a manifest, which this app does not ship.
 
 ## Next
 
 - **Localisation, continued** — the shell (3.4.0) and the Today screen (3.5.0) ship in
-  Hindi and Gujarati (see [`I18N.md`](I18N.md)). What is left is the other seven views —
-  Library, Reader, Journal, Trackers, Challenges, Insights, Settings — plus modals and
-  toasts. The pattern is settled and costs three steps per view: wrap the English in
+  Hindi and Gujarati (see [`I18N.md`](I18N.md)). What is left is the other five views —
+  Journal, Trackers, Challenges, Insights, Settings — plus modals and toasts. The pattern is settled and costs three steps per view: wrap the English in
   `t("key","English")`, run `extract-strings.py --write`, translate the new keys.
   Right-to-left support is unbuilt and has nothing to mirror yet — Hindi and Gujarati
   are both LTR.
